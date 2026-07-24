@@ -3,28 +3,32 @@ import React, { useState } from "react";
 
 export const ACCENT = "var(--accent)";
 
+const IMG_EXTS = ["webp", "png", "jpg"];
+
 /**
  * Real racquet photo with graceful fallback.
- * Drop files at `public/racquets/<id>.jpg` (id = racquet id, e.g. gravity_mp.jpg).
- * Cover art: `public/racquets/_cover.jpg`. Missing file -> wireframe placeholder.
+ * One image per series: `public/racquets/<series>.<ext>` (boom.webp, speed.png, …),
+ * cover art `public/racquets/_cover.<ext>`. Best results with a transparent-background
+ * cutout (racquet only, no text). Missing file -> wireframe placeholder.
+ * Tries webp -> png -> jpg -> placeholder.
  */
 export function RacquetImage({
-  id,
+  name,
   size = 200,
   ratio = 1.62,
 }: {
-  id: string;
+  name: string; // series slug (lowercase) or "_cover"
   size?: number;
   ratio?: number;
 }) {
-  const [failed, setFailed] = useState(false);
-  if (failed) return <RacquetPlaceholder size={size} />;
+  const [attempt, setAttempt] = useState(0);
+  if (attempt >= IMG_EXTS.length) return <RacquetPlaceholder size={size} />;
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={`/racquets/${id}.jpg`}
+      src={`/racquets/${name.toLowerCase()}.${IMG_EXTS[attempt]}`}
       alt=""
-      onError={() => setFailed(true)}
+      onError={() => setAttempt((a) => a + 1)}
       style={{ width: size, height: size * ratio, objectFit: "contain", display: "block" }}
     />
   );

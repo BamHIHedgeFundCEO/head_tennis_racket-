@@ -66,7 +66,7 @@ export default function ResultScreen({
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, animation: "matchIn .6s ease both" }}>
         <div style={{ flex: "none", marginLeft: -6 }}>
-          <RacquetImage id={top.id} size={128} />
+          <RacquetImage name={top.series} size={128} />
         </div>
         <div style={{ flex: 1, textAlign: "right" }}>
           <div style={{ display: "inline-flex", alignItems: "flex-start", color: "var(--accent)", textShadow: "0 0 40px var(--glow-strong)" }}>
