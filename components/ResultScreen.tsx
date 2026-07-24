@@ -1,6 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import type { Result, Answers } from "../engine/score";
+import type { Business } from "../lib/persist";
+import BusinessForm from "./BusinessForm";
 import {
   heroTags,
   whyThis,
@@ -10,17 +12,20 @@ import {
   racquetName,
   courtPersona,
 } from "../lib/copy";
-import { PrimaryButton, GhostButton, RacquetPlaceholder, monoLabel } from "./ui";
+import { PrimaryButton, GhostButton, RacquetImage, monoLabel } from "./ui";
 
 export default function ResultScreen({
   result,
   answers,
   onRestart,
+  onSubmitBusiness,
 }: {
   result: Result;
   answers?: Answers;
   onRestart: () => void;
+  onSubmitBusiness?: (b: Business) => void;
 }) {
+  const [nickname, setNickname] = useState("");
   const top = result.matches[0];
   if (!top) return null;
   const pct = Math.round(top.matchPct);
@@ -53,7 +58,7 @@ export default function ResultScreen({
 
       {/* ① HERO */}
       <div style={{ fontFamily: "var(--font-noto)", fontWeight: 500, fontSize: 13, color: "var(--ink-dim)", letterSpacing: ".06em" }}>
-        你的本命球拍
+        {nickname ? `${nickname}，你的本命球拍` : "你的本命球拍"}
       </div>
       <div className="archivo" style={{ fontWeight: 800, fontSize: "clamp(26px,8vw,32px)", letterSpacing: "-.01em", color: "#fff", margin: "2px 0 18px" }}>
         {racquetName(top.id)}
@@ -61,7 +66,7 @@ export default function ResultScreen({
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, animation: "matchIn .6s ease both" }}>
         <div style={{ flex: "none", marginLeft: -6 }}>
-          <RacquetPlaceholder size={128} />
+          <RacquetImage id={top.id} size={128} />
         </div>
         <div style={{ flex: 1, textAlign: "right" }}>
           <div style={{ display: "inline-flex", alignItems: "flex-start", color: "var(--accent)", textShadow: "0 0 40px var(--glow-strong)" }}>
@@ -201,6 +206,14 @@ export default function ResultScreen({
           </div>
         </>
       )}
+
+      {/* 業務欄位（選填，結果之後才問） */}
+      <BusinessForm
+        onSubmit={(b) => {
+          setNickname((b.nickname ?? "").trim());
+          onSubmitBusiness?.(b);
+        }}
+      />
 
       {/* ⑥ SHARE + LINE */}
       <PrimaryButton pulse style={{ marginTop: 26 }} onClick={openShare}>

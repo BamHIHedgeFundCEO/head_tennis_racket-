@@ -12,6 +12,7 @@ create table if not exists responses (
   ntrp_claimed   numeric,                 -- Q1 自評
   ntrp_inferred  numeric,                 -- Q2 校準後
   current_racquet text,                   -- Q4 現用拍（含競品！）
+  nickname       text,                    -- 選填，暱稱（顯示 + 成績卡用）
   gender         text,                    -- 選填，不進引擎
   age_band       text,                    -- 選填
   completed      boolean not null default false,  -- 是否答滿 15 題

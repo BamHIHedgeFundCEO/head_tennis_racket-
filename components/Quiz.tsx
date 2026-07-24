@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { config, questionList, EARLY_EXIT_AFTER_INDEX } from "../lib/config";
 import { score, type Answers, type Result } from "../engine/score";
-import { saveDraft, clearDraft, sendResponse, flushQueue, buildRow } from "../lib/persist";
+import { saveDraft, clearDraft, sendResponse, flushQueue, buildRow, type Business } from "../lib/persist";
 import QuestionScreen from "./QuestionScreen";
 import ResultScreen from "./ResultScreen";
 import Intro from "./Intro";
@@ -19,21 +19,29 @@ export default function Quiz() {
   const total = questionList.length;
   const q = questionList[index];
 
-  // latest snapshot for the abandon handler (avoids stale closures)
-  const snap = useRef<{ answers: Answers; completed: boolean }>({ answers: {}, completed: false });
+  // latest snapshot for the abandon handler (avoids stale closures).
+  // sent = the DB row for this session has already gone out (guards double-insert).
+  const snap = useRef<{ answers: Answers; result: Result | null; sent: boolean }>({
+    answers: {},
+    result: null,
+    sent: false,
+  });
   snap.current.answers = answers;
 
   // retry any responses stranded offline on a previous visit
   useEffect(() => { flushQueue(); }, []);
 
-  // persist a partial row if the user leaves mid-quiz (spec §4: partial answers still valuable)
+  // If the user leaves before the (optional) business form is submitted, still
+  // persist what we have: a completed row if they reached the result, else a
+  // partial row (spec §4: partial answers are valuable too).
   useEffect(() => {
     const onLeave = () => {
+      if (snap.current.sent) return;
       const a = snap.current.answers;
-      if (snap.current.completed) return;
       if (Object.keys(a).length === 0) return;
-      snap.current.completed = true; // guard against double send
-      sendResponse(buildRow(a, null, false));
+      snap.current.sent = true;
+      const r = snap.current.result;
+      sendResponse(buildRow(a, r, r !== null));
     };
     window.addEventListener("pagehide", onLeave);
     document.addEventListener("visibilitychange", () => {
@@ -54,10 +62,17 @@ export default function Quiz() {
     const r = score(answers, config);
     setResult(r);
     setPhase("result");
-    snap.current.completed = true;
-    sendResponse(buildRow(answers, r, true)); // INSERT completed row
+    snap.current.answers = answers;
+    snap.current.result = r; // hold result so the abandon handler can still persist it
     clearDraft();
     if (typeof window !== "undefined") window.scrollTo(0, 0);
+  };
+
+  // called when the business form is submitted OR skipped: one INSERT with everything
+  const submitBusiness = (b: Business) => {
+    if (snap.current.sent) return;
+    snap.current.sent = true;
+    sendResponse(buildRow(answers, result ?? snap.current.result, true, b));
   };
 
   const next = () => {
@@ -75,12 +90,20 @@ export default function Quiz() {
     setResult(null);
     setIndex(0);
     setPhase("intro");
-    snap.current = { answers: {}, completed: false };
+    snap.current = { answers: {}, result: null, sent: false };
     clearDraft();
   };
 
   if (phase === "intro") return <Intro onStart={() => setPhase("quiz")} />;
-  if (phase === "result" && result) return <ResultScreen result={result} answers={answers} onRestart={restart} />;
+  if (phase === "result" && result)
+    return (
+      <ResultScreen
+        result={result}
+        answers={answers}
+        onRestart={restart}
+        onSubmitBusiness={submitBusiness}
+      />
+    );
 
   const canEarlyExit = index > EARLY_EXIT_AFTER_INDEX; // Q12 onward
   const pct = ((index + 1) / total) * 100;

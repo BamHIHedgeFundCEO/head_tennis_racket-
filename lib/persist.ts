@@ -12,11 +12,14 @@ type Row = {
   ntrp_claimed: number | null;
   ntrp_inferred: number | null;
   current_racquet: string | null;
+  nickname: string | null;
   gender: string | null;
   age_band: string | null;
   completed: boolean;
   config_version: string;
 };
+
+export type Business = { nickname?: string | null; gender?: string | null; age_band?: string | null };
 
 function q1ClaimedNtrp(answers: Answers): number | null {
   const q1 = questionList.find((q) => q.id === "Q1");
@@ -35,14 +38,16 @@ export function buildRow(
   answers: Answers,
   result: Result | null,
   completed: boolean,
-  business?: { gender?: string | null; age_band?: string | null }
+  business?: Business
 ): Row {
+  const nn = business?.nickname?.trim();
   return {
     answers,
     result,
     ntrp_claimed: q1ClaimedNtrp(answers),
     ntrp_inferred: result ? result.effectiveNtrp : null,
     current_racquet: currentRacquet(answers),
+    nickname: nn ? nn : null,
     gender: business?.gender ?? null, // ⚠️ business only — never enters score()
     age_band: business?.age_band ?? null,
     completed,

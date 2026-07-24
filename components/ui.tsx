@@ -1,7 +1,34 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 export const ACCENT = "var(--accent)";
+
+/**
+ * Real racquet photo with graceful fallback.
+ * Drop files at `public/racquets/<id>.jpg` (id = racquet id, e.g. gravity_mp.jpg).
+ * Cover art: `public/racquets/_cover.jpg`. Missing file -> wireframe placeholder.
+ */
+export function RacquetImage({
+  id,
+  size = 200,
+  ratio = 1.62,
+}: {
+  id: string;
+  size?: number;
+  ratio?: number;
+}) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return <RacquetPlaceholder size={size} />;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`/racquets/${id}.jpg`}
+      alt=""
+      onError={() => setFailed(true)}
+      style={{ width: size, height: size * ratio, objectFit: "contain", display: "block" }}
+    />
+  );
+}
 
 /** Page shell: dark bg + subtle dotted grid, content centered mobile-first. */
 export function Shell({ children }: { children: React.ReactNode }) {

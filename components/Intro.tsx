@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { PrimaryButton, RacquetPlaceholder } from "./ui";
+import { PrimaryButton, RacquetImage } from "./ui";
 
 export default function Intro({ onStart }: { onStart: () => void }) {
   return (
@@ -10,9 +10,9 @@ export default function Intro({ onStart }: { onStart: () => void }) {
       </div>
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "8px 0" }}>
-        <RacquetPlaceholder size={196} />
-        <div className="mono" style={{ fontSize: 10, letterSpacing: ".2em", color: "rgba(255,255,255,.28)", marginTop: 2 }}>
-          拖曳旋轉 · DRAG TO ROTATE（3D：建置步驟 6）
+        <RacquetImage id="_cover" size={196} />
+        <div className="mono" style={{ fontSize: 10, letterSpacing: ".2em", color: "rgba(255,255,255,.28)", marginTop: 8 }}>
+          放 public/racquets/_cover.jpg 換真拍
         </div>
       </div>
 
