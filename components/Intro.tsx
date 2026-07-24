@@ -10,10 +10,7 @@ export default function Intro({ onStart }: { onStart: () => void }) {
       </div>
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "8px 0" }}>
-        <RacquetImage name="_cover" size={196} />
-        <div className="mono" style={{ fontSize: 10, letterSpacing: ".2em", color: "rgba(255,255,255,.28)", marginTop: 8 }}>
-          放 public/racquets/_cover.png（去背）換真拍
-        </div>
+        <RacquetImage name="_cover" size={200} />
       </div>
 
       <h1 className="archivo" style={{ fontWeight: 900, fontSize: "clamp(40px,13vw,46px)", lineHeight: 1.04, letterSpacing: "-.02em", color: "#fff", margin: "0 0 16px" }}>
