@@ -1,0 +1,46 @@
+:root {
+  --accent: #FF4D00;
+  --accent-hover: #ff6a2b;
+  --glow: rgba(255, 77, 0, 0.4);
+  --glow-strong: rgba(255, 77, 0, 0.6);
+  --bg: #0A0A0A;
+  --panel-top: #161616;
+  --panel-bottom: #0d0d0d;
+  --hairline: rgba(255, 255, 255, 0.12);
+  --ink: #ffffff;
+  --ink-dim: rgba(255, 255, 255, 0.55);
+  --ink-faint: rgba(255, 255, 255, 0.35);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-noto), var(--font-archivo), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+button { font-family: inherit; }
+input, select { font-family: inherit; }
+
+.mono { font-family: var(--font-mono), monospace; font-variant-numeric: tabular-nums; }
+.archivo { font-family: var(--font-archivo), var(--font-noto), sans-serif; }
+
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 0 22px var(--glow); }
+  50% { box-shadow: 0 0 44px var(--glow-strong); }
+}
+@keyframes matchIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes screenIn {
+  0% { opacity: 0; transform: translateY(14px); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* hide native range thumb — the mockup draws its own */
+input[type="range"].bare { -webkit-appearance: none; appearance: none; background: transparent; }
+input[type="range"].bare::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; }
