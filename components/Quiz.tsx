@@ -5,16 +5,18 @@ import { score, type Answers, type Result } from "../engine/score";
 import { saveDraft, clearDraft, sendResponse, flushQueue, buildRow, type Business } from "../lib/persist";
 import QuestionScreen from "./QuestionScreen";
 import ResultScreen from "./ResultScreen";
+import BusinessForm from "./BusinessForm";
 import Intro from "./Intro";
 import { ProgressBar } from "./ui";
 
-type Phase = "intro" | "quiz" | "result";
+type Phase = "intro" | "quiz" | "business" | "result";
 
 export default function Quiz() {
   const [phase, setPhase] = useState<Phase>("intro");
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [result, setResult] = useState<Result | null>(null);
+  const [nickname, setNickname] = useState("");
 
   const total = questionList.length;
   const q = questionList[index];
@@ -58,21 +60,26 @@ export default function Quiz() {
     });
   };
 
+  // end of quiz -> compute result, then ask the optional business step before showing it
   const finish = () => {
     const r = score(answers, config);
     setResult(r);
-    setPhase("result");
     snap.current.answers = answers;
     snap.current.result = r; // hold result so the abandon handler can still persist it
     clearDraft();
+    setPhase("business");
     if (typeof window !== "undefined") window.scrollTo(0, 0);
   };
 
-  // called when the business form is submitted OR skipped: one INSERT with everything
+  // business form submitted OR skipped: one INSERT with everything, then reveal result
   const submitBusiness = (b: Business) => {
-    if (snap.current.sent) return;
-    snap.current.sent = true;
-    sendResponse(buildRow(answers, result ?? snap.current.result, true, b));
+    if (!snap.current.sent) {
+      snap.current.sent = true;
+      sendResponse(buildRow(answers, result ?? snap.current.result, true, b));
+    }
+    setNickname((b.nickname ?? "").trim());
+    setPhase("result");
+    if (typeof window !== "undefined") window.scrollTo(0, 0);
   };
 
   const next = () => {
@@ -90,18 +97,20 @@ export default function Quiz() {
     setResult(null);
     setIndex(0);
     setPhase("intro");
+    setNickname("");
     snap.current = { answers: {}, result: null, sent: false };
     clearDraft();
   };
 
   if (phase === "intro") return <Intro onStart={() => setPhase("quiz")} />;
+  if (phase === "business") return <BusinessForm onSubmit={submitBusiness} />;
   if (phase === "result" && result)
     return (
       <ResultScreen
         result={result}
         answers={answers}
+        nickname={nickname}
         onRestart={restart}
-        onSubmitBusiness={submitBusiness}
       />
     );
 

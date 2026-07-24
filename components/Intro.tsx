@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-import { PrimaryButton, RacquetImage } from "./ui";
+import { PrimaryButton } from "./ui";
+import Racquet3D from "./Racquet3D";
 
 export default function Intro({ onStart }: { onStart: () => void }) {
   return (
@@ -10,7 +11,10 @@ export default function Intro({ onStart }: { onStart: () => void }) {
       </div>
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "8px 0" }}>
-        <RacquetImage name="_cover" size={200} />
+        <Racquet3D width={212} height={344} />
+        <div className="mono" style={{ fontSize: 10, letterSpacing: ".2em", color: "rgba(255,255,255,.28)", marginTop: 2 }}>
+          拖曳旋轉 · DRAG TO ROTATE
+        </div>
       </div>
 
       <h1 className="archivo" style={{ fontWeight: 900, fontSize: "clamp(40px,13vw,46px)", lineHeight: 1.04, letterSpacing: "-.02em", color: "#fff", margin: "0 0 16px" }}>

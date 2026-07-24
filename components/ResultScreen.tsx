@@ -1,8 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import type { Result, Answers } from "../engine/score";
-import type { Business } from "../lib/persist";
-import BusinessForm from "./BusinessForm";
 import {
   heroTags,
   whyThis,
@@ -17,15 +15,14 @@ import { PrimaryButton, GhostButton, RacquetImage, monoLabel } from "./ui";
 export default function ResultScreen({
   result,
   answers,
+  nickname,
   onRestart,
-  onSubmitBusiness,
 }: {
   result: Result;
   answers?: Answers;
+  nickname?: string;
   onRestart: () => void;
-  onSubmitBusiness?: (b: Business) => void;
 }) {
-  const [nickname, setNickname] = useState("");
   const top = result.matches[0];
   if (!top) return null;
   const pct = Math.round(top.matchPct);
@@ -206,14 +203,6 @@ export default function ResultScreen({
           </div>
         </>
       )}
-
-      {/* 業務欄位（選填，結果之後才問） */}
-      <BusinessForm
-        onSubmit={(b) => {
-          setNickname((b.nickname ?? "").trim());
-          onSubmitBusiness?.(b);
-        }}
-      />
 
       {/* ⑥ SHARE + LINE */}
       <PrimaryButton pulse style={{ marginTop: 26 }} onClick={openShare}>

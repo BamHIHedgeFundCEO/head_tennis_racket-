@@ -9,8 +9,11 @@ const ACCENT = "#FF4D00";
 
 // 目前用 Latin-forward 版（satori 內建字型只涵蓋拉丁字，中文字形需另嵌 TTF 子集，列為後續）。
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
+  const reqUrl = new URL(req.url);
+  const origin = reqUrl.origin;
+  const { searchParams } = reqUrl;
   const series = (searchParams.get("series") || "HEAD").toUpperCase();
+  const racquetSrc = `${origin}/racquets/${series.toLowerCase()}.png`;
   const model = searchParams.get("model") || "";
   const pct = searchParams.get("pct") || "";
   const tags = (searchParams.get("t") || "")
@@ -46,22 +49,28 @@ export async function GET(req: Request) {
           <div style={{ fontSize: 34, letterSpacing: 6, color: "rgba(255,255,255,0.5)", marginBottom: 18 }}>
             YOUR RACQUET
           </div>
-          <div style={{ display: "flex", fontSize: 96, fontWeight: 800, letterSpacing: -2, lineHeight: 1 }}>
-            {series}
-          </div>
-          <div style={{ display: "flex", fontSize: 72, fontWeight: 700, color: "rgba(255,255,255,0.82)", marginTop: 6 }}>
-            {model}
-          </div>
 
-          {/* big % */}
-          <div style={{ display: "flex", alignItems: "flex-end", marginTop: 64 }}>
-            <div style={{ fontSize: 360, fontWeight: 900, color: ACCENT, lineHeight: 0.82, letterSpacing: -12 }}>
-              {pct}
+          {/* racquet + name/score row */}
+          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={racquetSrc} alt="" width={300} height={720} style={{ objectFit: "contain", marginLeft: -30 }} />
+            <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+              <div style={{ display: "flex", fontSize: 88, fontWeight: 800, letterSpacing: -2, lineHeight: 1 }}>
+                {series}
+              </div>
+              <div style={{ display: "flex", fontSize: 64, fontWeight: 700, color: "rgba(255,255,255,0.82)", marginTop: 6 }}>
+                {model}
+              </div>
+              <div style={{ display: "flex", alignItems: "flex-end", marginTop: 30 }}>
+                <div style={{ fontSize: 300, fontWeight: 900, color: ACCENT, lineHeight: 0.82, letterSpacing: -10 }}>
+                  {pct}
+                </div>
+                <div style={{ fontSize: 100, fontWeight: 800, color: ACCENT, marginBottom: 34 }}>%</div>
+              </div>
+              <div style={{ fontSize: 28, letterSpacing: 8, color: "rgba(255,255,255,0.45)", marginTop: 6 }}>
+                MATCH SCORE
+              </div>
             </div>
-            <div style={{ fontSize: 120, fontWeight: 800, color: ACCENT, marginBottom: 40 }}>%</div>
-          </div>
-          <div style={{ fontSize: 30, letterSpacing: 8, color: "rgba(255,255,255,0.45)", marginTop: 8 }}>
-            MATCH SCORE
           </div>
 
           {/* progress bar */}
