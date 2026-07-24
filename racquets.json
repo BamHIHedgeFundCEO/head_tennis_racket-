@@ -1,0 +1,867 @@
+{
+  "meta": {
+    "version": "1.0",
+    "axes": [
+      "power",
+      "control",
+      "spin",
+      "comfort"
+    ],
+    "mass_axis": "sw",
+    "formula": {
+      "power": "0.65*Compass_X + 0.35*(CPI/10) + (maxBeam-23)*2.2 + (head-100)*0.8",
+      "control": "(100-power) + pattern_density_bonus + (100-head)*0.7",
+      "spin": "Compass_Y + pattern_openness_bonus",
+      "comfort": "90 - (RA-57)*6 + (strungWeight-300)*0.12",
+      "difficulty": "((100-head)*2 + max(0,SW-300)*0.55 + densePatternBonus + max(0,60-RA)*0.8)*1.15"
+    },
+    "notes": [
+      "CPI 與 Compass_X 相關係數 0.918，殘差=重量效應（已由 SW 承接），故合併為單一力量軸而非各自獨立",
+      "PRESTIGE：硬 Gate 需 NTRP>=4.0 + 無傷病 + 力量自足 + 手感偏清脆；另加 score_multiplier 0.85",
+      "cosmetic=true 的型號為塗裝款，vector 繼承本尊，引擎排名時應去重、僅在文案層推薦",
+      "羅盤座標為使用者目測 ±5；若原廠提供向量檔應優先覆蓋"
+    ]
+  },
+  "racquets": [
+    {
+      "id": "speed_pro",
+      "series": "SPEED",
+      "model": "PRO",
+      "sku": 232006,
+      "vector": {
+        "power": 30,
+        "control": 79,
+        "spin": 39,
+        "comfort": 69
+      },
+      "sw": 328,
+      "ra": 61,
+      "head": 100,
+      "pattern": "18/20",
+      "difficulty": 29,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 4.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "speed_tour",
+      "series": "SPEED",
+      "model": "TOUR",
+      "sku": 232016,
+      "vector": {
+        "power": 37,
+        "control": 65,
+        "spin": 63,
+        "comfort": 69
+      },
+      "sw": 325,
+      "ra": 61,
+      "head": 97,
+      "pattern": "16/19",
+      "difficulty": 23,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 3.5
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "speed_mp",
+      "series": "SPEED",
+      "model": "MP",
+      "sku": 232026,
+      "vector": {
+        "power": 45,
+        "control": 55,
+        "spin": 65,
+        "comfort": 74
+      },
+      "sw": 329,
+      "ra": 60,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 18,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 3.5
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "speed_mp_l",
+      "series": "SPEED",
+      "model": "MP L",
+      "sku": 232036,
+      "vector": {
+        "power": 59,
+        "control": 41,
+        "spin": 65,
+        "comfort": 65
+      },
+      "sw": 316,
+      "ra": 61,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 10,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 3.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "speed_mp_ul",
+      "series": "SPEED",
+      "model": "MP UL",
+      "sku": 232046,
+      "vector": {
+        "power": 69,
+        "control": 31,
+        "spin": 57,
+        "comfort": 63
+      },
+      "sw": 291,
+      "ra": 61,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 0,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "speed_team",
+      "series": "SPEED",
+      "model": "TEAM",
+      "sku": 232056,
+      "vector": {
+        "power": 86,
+        "control": 10,
+        "spin": 53,
+        "comfort": 58
+      },
+      "sw": 303,
+      "ra": 62,
+      "head": 105,
+      "pattern": "16/19",
+      "difficulty": 0,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "speed_pro_legend",
+      "series": "SPEED",
+      "model": "PRO LEGEND",
+      "sku": 232066,
+      "vector": {
+        "power": 30,
+        "control": 79,
+        "spin": 39,
+        "comfort": 69
+      },
+      "sw": 328,
+      "ra": 61,
+      "head": 100,
+      "pattern": "18/20",
+      "difficulty": 29,
+      "inherits": "speed_pro",
+      "cosmetic": true,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 4.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "speed_mp_legend",
+      "series": "SPEED",
+      "model": "MP LEGEND",
+      "sku": 232076,
+      "vector": {
+        "power": 45,
+        "control": 55,
+        "spin": 65,
+        "comfort": 74
+      },
+      "sw": 329,
+      "ra": 60,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 18,
+      "inherits": "speed_mp",
+      "cosmetic": true,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 3.5
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "squared_squared",
+      "series": "SQUARED",
+      "model": "SQUARED",
+      "sku": 232602,
+      "vector": {
+        "power": 59,
+        "control": 38,
+        "spin": 66,
+        "comfort": 73
+      },
+      "sw": 291,
+      "ra": 60,
+      "head": 100,
+      "pattern": "16/18",
+      "difficulty": 0,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "boom_pro",
+      "series": "BOOM",
+      "model": "PRO",
+      "sku": 232206,
+      "vector": {
+        "power": 37,
+        "control": 64,
+        "spin": 23,
+        "comfort": 51
+      },
+      "sw": 325,
+      "ra": 64,
+      "head": 98,
+      "pattern": "16/19",
+      "difficulty": 20,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": false,
+        "min_ntrp": 3.5
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "boom_mp",
+      "series": "BOOM",
+      "model": "MP",
+      "sku": 232216,
+      "vector": {
+        "power": 56,
+        "control": 44,
+        "spin": 33,
+        "comfort": 67
+      },
+      "sw": 316,
+      "ra": 61,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 10,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 3.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "boom_mp_l",
+      "series": "BOOM",
+      "model": "MP L",
+      "sku": 232226,
+      "vector": {
+        "power": 63,
+        "control": 37,
+        "spin": 27,
+        "comfort": 53
+      },
+      "sw": 305,
+      "ra": 63,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 3,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "boom_mp_ul",
+      "series": "BOOM",
+      "model": "MP UL",
+      "sku": 232236,
+      "vector": {
+        "power": 75,
+        "control": 25,
+        "spin": 35,
+        "comfort": 56
+      },
+      "sw": 290,
+      "ra": 62,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 0,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "boom_team",
+      "series": "BOOM",
+      "model": "TEAM",
+      "sku": 232246,
+      "vector": {
+        "power": 100,
+        "control": 0,
+        "spin": 20,
+        "comfort": 57
+      },
+      "sw": 313,
+      "ra": 62,
+      "head": 107,
+      "pattern": "16/19",
+      "difficulty": 0,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "boom_alternate_mp",
+      "series": "BOOM ALTERNATE",
+      "model": "MP",
+      "sku": 232406,
+      "vector": {
+        "power": 56,
+        "control": 44,
+        "spin": 33,
+        "comfort": 67
+      },
+      "sw": 316,
+      "ra": 61,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 10,
+      "cosmetic": true,
+      "inherits": "boom_mp",
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 3.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "boom_alternate_mp_l",
+      "series": "BOOM ALTERNATE",
+      "model": "MP L",
+      "sku": 232416,
+      "vector": {
+        "power": 63,
+        "control": 37,
+        "spin": 27,
+        "comfort": 53
+      },
+      "sw": 305,
+      "ra": 63,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 3,
+      "cosmetic": true,
+      "inherits": "boom_mp_l",
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "boom_alternate_mp_ul",
+      "series": "BOOM ALTERNATE",
+      "model": "MP UL",
+      "sku": 232426,
+      "vector": {
+        "power": 75,
+        "control": 25,
+        "spin": 35,
+        "comfort": 56
+      },
+      "sw": 290,
+      "ra": 62,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 0,
+      "cosmetic": true,
+      "inherits": "boom_mp_ul",
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "boom_alternate_team",
+      "series": "BOOM ALTERNATE",
+      "model": "TEAM",
+      "sku": 232436,
+      "vector": {
+        "power": 100,
+        "control": 0,
+        "spin": 20,
+        "comfort": 57
+      },
+      "sw": 313,
+      "ra": 62,
+      "head": 107,
+      "pattern": "16/19",
+      "difficulty": 0,
+      "cosmetic": true,
+      "inherits": "boom_team",
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "radical_pro",
+      "series": "RADICAL",
+      "model": "PRO",
+      "sku": 231005,
+      "vector": {
+        "power": 16,
+        "control": 85,
+        "spin": 77,
+        "comfort": 46
+      },
+      "sw": 329,
+      "ra": 65,
+      "head": 98,
+      "pattern": "16/19",
+      "difficulty": 23,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": false,
+        "min_ntrp": 3.5
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "radical_mp",
+      "series": "RADICAL",
+      "model": "MP",
+      "sku": 231015,
+      "vector": {
+        "power": 33,
+        "control": 68,
+        "spin": 90,
+        "comfort": 38
+      },
+      "sw": 323,
+      "ra": 66,
+      "head": 98,
+      "pattern": "16/19",
+      "difficulty": 19,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": false,
+        "min_ntrp": 3.5
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "radical_team",
+      "series": "RADICAL",
+      "model": "TEAM",
+      "sku": 231025,
+      "vector": {
+        "power": 59,
+        "control": 40,
+        "spin": 73,
+        "comfort": 53
+      },
+      "sw": 303,
+      "ra": 63,
+      "head": 102,
+      "pattern": "16/19",
+      "difficulty": 0,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "radical_team_l",
+      "series": "RADICAL",
+      "model": "TEAM L",
+      "sku": 231035,
+      "vector": {
+        "power": 70,
+        "control": 29,
+        "spin": 67,
+        "comfort": 46
+      },
+      "sw": 306,
+      "ra": 64,
+      "head": 102,
+      "pattern": "16/19",
+      "difficulty": 0,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": false,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "gravity_pro",
+      "series": "GRAVITY",
+      "model": "PRO",
+      "sku": 231105,
+      "vector": {
+        "power": 13,
+        "control": 91,
+        "spin": 38,
+        "comfort": 82
+      },
+      "sw": 329,
+      "ra": 59,
+      "head": 100,
+      "pattern": "16/20",
+      "difficulty": 19,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 3.5
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "gravity_tour",
+      "series": "GRAVITY",
+      "model": "TOUR",
+      "sku": 231115,
+      "vector": {
+        "power": 26,
+        "control": 75,
+        "spin": 49,
+        "comfort": 81
+      },
+      "sw": 328,
+      "ra": 59,
+      "head": 98,
+      "pattern": "16/19",
+      "difficulty": 23,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 3.5
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "gravity_mp",
+      "series": "GRAVITY",
+      "model": "MP",
+      "sku": 231125,
+      "vector": {
+        "power": 36,
+        "control": 68,
+        "spin": 36,
+        "comfort": 91
+      },
+      "sw": 323,
+      "ra": 57,
+      "head": 100,
+      "pattern": "16/20",
+      "difficulty": 17,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 3.5
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "gravity_mp_l",
+      "series": "GRAVITY",
+      "model": "MP L",
+      "sku": 231135,
+      "vector": {
+        "power": 49,
+        "control": 55,
+        "spin": 20,
+        "comfort": 89
+      },
+      "sw": 308,
+      "ra": 57,
+      "head": 100,
+      "pattern": "16/20",
+      "difficulty": 8,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 3.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "gravity_team",
+      "series": "GRAVITY",
+      "model": "TEAM",
+      "sku": 231145,
+      "vector": {
+        "power": 65,
+        "control": 36,
+        "spin": 13,
+        "comfort": 88
+      },
+      "sw": 304,
+      "ra": 57,
+      "head": 104,
+      "pattern": "16/20",
+      "difficulty": 0,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "extreme_pro",
+      "series": "EXTREME",
+      "model": "PRO",
+      "sku": 233306,
+      "vector": {
+        "power": 38,
+        "control": 63,
+        "spin": 79,
+        "comfort": 51
+      },
+      "sw": 319,
+      "ra": 64,
+      "head": 98,
+      "pattern": "16/19",
+      "difficulty": 17,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": false,
+        "min_ntrp": 3.5
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "extreme_mp",
+      "series": "EXTREME",
+      "model": "MP",
+      "sku": 233316,
+      "vector": {
+        "power": 60,
+        "control": 40,
+        "spin": 93,
+        "comfort": 32
+      },
+      "sw": 318,
+      "ra": 67,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 11,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": false,
+        "min_ntrp": 3.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "extreme_mp_l",
+      "series": "EXTREME",
+      "model": "MP L",
+      "sku": 233326,
+      "vector": {
+        "power": 71,
+        "control": 29,
+        "spin": 71,
+        "comfort": 47
+      },
+      "sw": 307,
+      "ra": 64,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 4,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": false,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "extreme_mp_ul",
+      "series": "EXTREME",
+      "model": "MP UL",
+      "sku": 233336,
+      "vector": {
+        "power": 77,
+        "control": 23,
+        "spin": 65,
+        "comfort": 39
+      },
+      "sw": 296,
+      "ra": 65,
+      "head": 100,
+      "pattern": "16/19",
+      "difficulty": 0,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": false,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "extreme_team",
+      "series": "EXTREME",
+      "model": "TEAM",
+      "sku": 233346,
+      "vector": {
+        "power": 93,
+        "control": 4,
+        "spin": 60,
+        "comfort": 57
+      },
+      "sw": 305,
+      "ra": 62,
+      "head": 105,
+      "pattern": "16/19",
+      "difficulty": 0,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 2.0
+      },
+      "score_multiplier": 1.0
+    },
+    {
+      "id": "prestige_pro",
+      "series": "PRESTIGE",
+      "model": "PRO",
+      "sku": 236103,
+      "vector": {
+        "power": 12,
+        "control": 98,
+        "spin": 36,
+        "comfort": 88
+      },
+      "sw": 324,
+      "ra": 58,
+      "head": 98,
+      "pattern": "18/20",
+      "difficulty": 33,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 4.0
+      },
+      "score_multiplier": 0.85
+    },
+    {
+      "id": "prestige_tour",
+      "series": "PRESTIGE",
+      "model": "TOUR",
+      "sku": 236113,
+      "vector": {
+        "power": 21,
+        "control": 82,
+        "spin": 55,
+        "comfort": 64
+      },
+      "sw": 330,
+      "ra": 62,
+      "head": 95,
+      "pattern": "16/19",
+      "difficulty": 30,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 4.0
+      },
+      "score_multiplier": 0.85
+    },
+    {
+      "id": "prestige_mp",
+      "series": "PRESTIGE",
+      "model": "MP",
+      "sku": 236123,
+      "vector": {
+        "power": 28,
+        "control": 80,
+        "spin": 45,
+        "comfort": 63
+      },
+      "sw": 327,
+      "ra": 62,
+      "head": 99,
+      "pattern": "18/19",
+      "difficulty": 31,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 4.0
+      },
+      "score_multiplier": 0.85
+    },
+    {
+      "id": "prestige_mp_l",
+      "series": "PRESTIGE",
+      "model": "MP L",
+      "sku": 236133,
+      "vector": {
+        "power": 33,
+        "control": 68,
+        "spin": 55,
+        "comfort": 68
+      },
+      "sw": 309,
+      "ra": 61,
+      "head": 99,
+      "pattern": "16/19",
+      "difficulty": 8,
+      "gate": {
+        "max_ra_if_injured": 63,
+        "injury_safe": true,
+        "min_ntrp": 4.0
+      },
+      "score_multiplier": 0.85
+    }
+  ]
+}
