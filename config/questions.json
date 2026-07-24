@@ -413,6 +413,19 @@
             "safe"
           ],
           "head_pref_delta": 6
+        },
+        {
+          "id": "q5e",
+          "label": "發球上網型 🎯",
+          "sublabel": "發完就進攻，網前收掉",
+          "delta": {
+            "control": 8,
+            "power": 10
+          },
+          "sw_target_delta": 4,
+          "copy_tags": [
+            "serve_volley"
+          ]
         }
       ]
     },
@@ -596,8 +609,19 @@
           ]
         },
         {
+          "id": "q9d",
+          "label": "厚實紮實，吃得住、不空",
+          "delta": {
+            "control": 10,
+            "comfort": 8
+          },
+          "copy_tags": [
+            "feel_solid"
+          ]
+        },
+        {
           "id": "q9b",
-          "label": "清脆直接，回饋清楚",
+          "label": "清脆直接，回饋俐落",
           "delta": {
             "control": 16,
             "comfort": -12
@@ -608,10 +632,22 @@
           ]
         },
         {
+          "id": "q9e",
+          "label": "Q 彈帶勁，線床有助力感",
+          "delta": {
+            "power": 16,
+            "comfort": 2
+          },
+          "copy_tags": [
+            "feel_springy"
+          ]
+        },
+        {
           "id": "q9c",
-          "label": "不在乎手感，球快就好",
+          "label": "不在乎手感，要的是轉和速度",
           "delta": {
             "power": 14,
+            "spin": 6,
             "comfort": -4
           },
           "copy_tags": [
@@ -619,7 +655,7 @@
           ]
         }
       ],
-      "note": "分開 Gravity(軟) / Radical·Prestige(脆) / Boom·Extreme(悶) 的唯一題。Prestige 硬Gate 需要 feel_crisp。"
+      "note": "分家族的關鍵題：Gravity(軟) / Speed(厚實) / Radical·Prestige(脆) / Boom(Q彈) / Extreme(不在乎手感、要轉速)。Prestige 硬Gate 需要 feel_crisp(q9b)。"
     },
     {
       "id": "Q10",
