@@ -1,5 +1,6 @@
 import type { Result, Answers } from "../engine/score";
 import { racquetById } from "./config";
+import { MBTI, MBTI_GROUP_ZH, Q13_OPTION_TO_TYPES, type MbtiPersona } from "./mbti";
 
 export const AXIS_ZH: Record<string, string> = {
   power: "力量",
@@ -129,6 +130,26 @@ export function guessReveal(result: Result): { correct: boolean; text: string } 
     correct: false,
     text: `你以為你是 ${seriesZh(result.guessedSeries)},但你的打法出賣了你 😏 系統把你判給了 ${seriesZh(topSeries)}。`,
   };
+}
+
+/**
+ * Q13 球場人格。Q13 目前是「兩兩成對」選項（8 組），無法唯一定到 16 型中的一型，
+ * 所以回傳該組 group 語氣 + 這一對的兩個人格,由使用者對號入座。跳過/未答則 null。
+ */
+export function courtPersona(answers: Answers | undefined): {
+  group: string;
+  title: string;
+  blurb: string;
+  personas: MbtiPersona[];
+} | null {
+  const pick = answers?.["Q13"];
+  if (typeof pick !== "string") return null;
+  const types = Q13_OPTION_TO_TYPES[pick];
+  if (!types) return null; // mbti_skip or unknown
+  const personas = types.map((t) => MBTI[t]).filter(Boolean) as MbtiPersona[];
+  if (!personas.length) return null;
+  const g = personas[0].group;
+  return { group: g, ...MBTI_GROUP_ZH[g], personas };
 }
 
 /** Other HEAD options (Top2 / Top3) with a "leans more X, N points lower" tag. */

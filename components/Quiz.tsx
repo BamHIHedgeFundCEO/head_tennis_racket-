@@ -80,7 +80,7 @@ export default function Quiz() {
   };
 
   if (phase === "intro") return <Intro onStart={() => setPhase("quiz")} />;
-  if (phase === "result" && result) return <ResultScreen result={result} onRestart={restart} />;
+  if (phase === "result" && result) return <ResultScreen result={result} answers={answers} onRestart={restart} />;
 
   const canEarlyExit = index > EARLY_EXIT_AFTER_INDEX; // Q12 onward
   const pct = ((index + 1) / total) * 100;

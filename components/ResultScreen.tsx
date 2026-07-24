@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import type { Result } from "../engine/score";
+import type { Result, Answers } from "../engine/score";
 import {
   heroTags,
   whyThis,
@@ -8,14 +8,17 @@ import {
   guessReveal,
   otherOptions,
   racquetName,
+  courtPersona,
 } from "../lib/copy";
 import { PrimaryButton, GhostButton, RacquetPlaceholder, monoLabel } from "./ui";
 
 export default function ResultScreen({
   result,
+  answers,
   onRestart,
 }: {
   result: Result;
+  answers?: Answers;
   onRestart: () => void;
 }) {
   const top = result.matches[0];
@@ -26,6 +29,21 @@ export default function ResultScreen({
   const runner = whyNot(result);
   const guess = guessReveal(result);
   const others = otherOptions(result);
+  const persona = courtPersona(answers);
+
+  const AXIS_EN: Record<string, string> = { power: "POWER", control: "CONTROL", spin: "SPIN", comfort: "COMFORT" };
+  const ogTags = Object.keys(top.vector)
+    .sort((a, b) => top.vector[b] - top.vector[a])
+    .slice(0, 3)
+    .map((a) => AXIS_EN[a] ?? a.toUpperCase());
+  const shareUrl =
+    `/api/og?series=${encodeURIComponent(top.series)}` +
+    `&model=${encodeURIComponent(top.model)}` +
+    `&pct=${pct}` +
+    `&t=${encodeURIComponent(ogTags.join(","))}`;
+  const openShare = () => {
+    if (typeof window !== "undefined") window.open(shareUrl, "_blank");
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", animation: "screenIn .3s ease both", paddingBottom: 8 }}>
@@ -134,6 +152,38 @@ export default function ResultScreen({
         </Card>
       )}
 
+      {/* MBTI 球場人格（flavor / 語氣層） */}
+      {persona && (
+        <Card style={{ marginTop: 14 }}>
+          <span className="mono" style={{ fontWeight: 700, fontSize: 11, letterSpacing: ".14em", color: "var(--ink-faint)" }}>
+            球場人格 · YOUR COURT PERSONA
+          </span>
+          <div className="archivo" style={{ fontFamily: "var(--font-noto)", fontWeight: 700, fontSize: 15, color: "#fff", margin: "8px 0 4px" }}>
+            {persona.title}
+          </div>
+          <div style={{ fontFamily: "var(--font-noto)", fontSize: 12.5, lineHeight: 1.5, color: "var(--ink-dim)", marginBottom: 12 }}>
+            {persona.blurb}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {persona.personas.map((p) => (
+              <div key={p.type} style={{ display: "flex", gap: 12 }}>
+                <span className="mono" style={{ flex: "none", width: 46, fontWeight: 700, fontSize: 12, color: "var(--accent)", paddingTop: 2 }}>
+                  {p.type}
+                </span>
+                <span>
+                  <span style={{ fontFamily: "var(--font-noto)", fontWeight: 700, fontSize: 13.5, color: "#fff" }}>
+                    {p.nickname} · {p.role}
+                  </span>
+                  <span style={{ display: "block", fontFamily: "var(--font-noto)", fontSize: 12.5, lineHeight: 1.5, color: "var(--ink-dim)", marginTop: 3 }}>
+                    {p.description}
+                  </span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+
       {/* ⑤ OTHER HEAD OPTIONS */}
       {others.length > 0 && (
         <>
@@ -153,7 +203,7 @@ export default function ResultScreen({
       )}
 
       {/* ⑥ SHARE + LINE */}
-      <PrimaryButton pulse style={{ marginTop: 26 }} onClick={() => alert("分享成績卡 — Vercel OG 圖卡(建置步驟 5)")}>
+      <PrimaryButton pulse style={{ marginTop: 26 }} onClick={openShare}>
         分享成績卡 <span className="mono" style={{ fontWeight: 700 }}>↗</span>
       </PrimaryButton>
       <div style={{ marginTop: 10 }}>
