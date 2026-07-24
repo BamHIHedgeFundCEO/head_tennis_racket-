@@ -33,16 +33,12 @@ export default function ResultScreen({
   const others = otherOptions(result);
   const persona = courtPersona(answers);
 
-  const AXIS_EN: Record<string, string> = { power: "POWER", control: "CONTROL", spin: "SPIN", comfort: "COMFORT" };
-  const ogTags = Object.keys(top.vector)
-    .sort((a, b) => top.vector[b] - top.vector[a])
-    .slice(0, 3)
-    .map((a) => AXIS_EN[a] ?? a.toUpperCase());
   const shareUrl =
     `/api/og?series=${encodeURIComponent(top.series)}` +
     `&model=${encodeURIComponent(top.model)}` +
     `&pct=${pct}` +
-    `&t=${encodeURIComponent(ogTags.join(","))}`;
+    `&t=${encodeURIComponent(tags.join(","))}` +
+    (nickname ? `&nn=${encodeURIComponent(nickname)}` : "");
   const openShare = () => {
     if (typeof window !== "undefined") window.open(shareUrl, "_blank");
   };
