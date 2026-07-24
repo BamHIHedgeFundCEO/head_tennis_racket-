@@ -11,6 +11,7 @@ import {
   courtPersona,
 } from "../lib/copy";
 import { PrimaryButton, GhostButton, RacquetImage, monoLabel } from "./ui";
+import { LINKS, hasLine, hasWebsite } from "../lib/links";
 
 export default function ResultScreen({
   result,
@@ -204,12 +205,21 @@ export default function ResultScreen({
       <PrimaryButton pulse style={{ marginTop: 26 }} onClick={openShare}>
         分享成績卡 <span className="mono" style={{ fontWeight: 700 }}>↗</span>
       </PrimaryButton>
-      <div style={{ marginTop: 10 }}>
-        <GhostButton onClick={() => alert("加 LINE 領完整報告(建置步驟 4/6)")}>加 LINE 領完整報告</GhostButton>
-      </div>
+      {hasLine() && (
+        <div style={{ marginTop: 10 }}>
+          <GhostButton onClick={() => window.open(LINKS.line, "_blank")}>加 LINE 領完整報告</GhostButton>
+        </div>
+      )}
       <div style={{ marginTop: 10 }}>
         <GhostButton onClick={onRestart}>重新測驗</GhostButton>
       </div>
+      {hasWebsite() && (
+        <div style={{ marginTop: 18, textAlign: "center" }}>
+          <a href={LINKS.website} target="_blank" rel="noopener noreferrer" className="mono" style={{ fontSize: 11, letterSpacing: ".14em", color: "var(--ink-faint)" }}>
+            前往 HEAD 官網 →
+          </a>
+        </div>
+      )}
     </div>
   );
 }

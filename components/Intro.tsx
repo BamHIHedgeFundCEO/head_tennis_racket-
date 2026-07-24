@@ -2,6 +2,7 @@
 import React from "react";
 import { PrimaryButton } from "./ui";
 import Racquet3D from "./Racquet3D";
+import { LINKS, hasWebsite } from "../lib/links";
 
 export default function Intro({ onStart }: { onStart: () => void }) {
   return (
@@ -35,6 +36,13 @@ export default function Intro({ onStart }: { onStart: () => void }) {
           </span>
         ))}
       </div>
+      {hasWebsite() && (
+        <div style={{ marginTop: 14, textAlign: "center" }}>
+          <a href={LINKS.website} target="_blank" rel="noopener noreferrer" className="mono" style={{ fontSize: 11, letterSpacing: ".14em", color: "var(--ink-faint)" }}>
+            前往 HEAD 官網 →
+          </a>
+        </div>
+      )}
     </div>
   );
 }
