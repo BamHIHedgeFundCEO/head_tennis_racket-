@@ -63,15 +63,6 @@ export default function Racquet3D({
         group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat));
       const segs = (pts: any[], mat: any) =>
         group.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), mat));
-      const qbez = (p0: number[], p1: number[], p2: number[], n: number) => {
-        const a = [];
-        for (let i = 0; i <= n; i++) {
-          const t = i / n, u = 1 - t;
-          a.push(V(u * u * p0[0] + 2 * u * t * p1[0] + t * t * p2[0], u * u * p0[1] + 2 * u * t * p1[1] + t * t * p2[1]));
-        }
-        return a;
-      };
-
       const HY = 1.7, RX = 1.05, RY = 1.36;
       const JR = 308, JL = 232;
       const DEG = Math.PI / 180;
@@ -88,10 +79,10 @@ export default function Racquet3D({
 
       const outer2d = [
         ...headArc(RX, RY),
-        ...qbez([Lj.x, Lj.y], [-0.66, 0.28], [-0.16, -0.02], 26),
+        V(-0.16, -0.02), // straight shoulder: head junction -> shaft top (left)
         V(-0.155, -0.5), V(-0.185, -0.62), V(-0.205, -2.28), V(-0.245, -2.44),
         V(0.245, -2.44), V(0.205, -2.28), V(0.185, -0.62), V(0.155, -0.5),
-        ...qbez([0.16, -0.02], [0.66, 0.28], [Rj.x, Rj.y], 26),
+        V(0.16, -0.02), V(Rj.x, Rj.y), // straight shoulder: shaft top -> head junction (right)
       ];
 
       const D = 0.12;
