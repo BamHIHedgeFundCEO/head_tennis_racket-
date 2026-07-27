@@ -103,10 +103,11 @@ export default function Racquet3D({
       loop(headArc(RX * 1.02, RY * 1.02), glowMat);
       loop(headArc(RX - 0.1, RY - 0.1), dimMat);
 
-      const throat = [V(0, 0.16), ...qbez([0, 0.16], [-0.34, 0.32], [-0.52, 0.6], 18)];
+      // throat: straight-sided triangle (apex -> head-bottom arc -> back to apex)
+      const throat = [V(0, 0.16)];
       const RXi = 0.87, RYi = 1.16;
       for (let a = 232; a <= 308; a += 6) { const r = a * DEG; throat.push(V(RXi * Math.cos(r), HY + RYi * Math.sin(r))); }
-      throat.push(...qbez([0.52, 0.6], [0.34, 0.32], [0, 0.16], 18));
+      throat.push(V(0, 0.16));
       loop(throat, dimMat);
 
       const str: any[] = [], yFloor = 0.78;

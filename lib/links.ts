@@ -2,9 +2,9 @@
 export const LINKS = {
   // LINE 官方帳號：LINE Official Account Manager → 加入好友 → 複製網址
   // 例：https://lin.ee/xxxxx 或 https://line.me/R/ti/p/@xxxxx
-  line: "",
+  line: "https://line.me/R/ti/p/@597utwud",
   // 公司官網（HEAD 台灣總代理）
-  website: "",
+  website: "https://www.headsports.com.tw/",
 };
 
 export const hasLine = () => LINKS.line.trim().length > 0;
