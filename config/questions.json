@@ -58,9 +58,10 @@
           290,
           330
         ],
-        "validated": "五個測試人格 Top1 落在 89.6–92.9%"
+        "validated": "五個測試人格 Top1 落在 85.3–95.9%（power/control delta 改為零和、comfort delta 去平均後截零之後重新量測）"
       },
-      "dedupe": "cosmetic=true 不進排名；Top1 命中本尊時於文案層推薦塗裝版"
+      "dedupe": "cosmetic=true 不進排名；Top1 命中本尊時於文案層推薦塗裝版",
+      "delta_convention": "★ power 與 control 的 delta 必須零和（一邊 +x，另一邊 -x）：racquets.json 的公式讓每支拍的 power+control 固定在 ~101，同向加會把 ideal 推到做不出來的角落，排序就退化成「誰最接近全表重心」。comfort delta 已去平均並截零，只有真正在乎舒適的答案才帶 comfort 訊號。 sw_target_delta 同理必須以 0 為中心（正負大致相抵）：base_by_ntrp 負責分級，delta 只做相對微調；單向偏負會把目標拖到全表 SW 分佈之下，最輕的幾支就長期佔便宜。"
     },
     "notes": [
       "Q7：style 給控制拍(power-20) 但 sw_target +10，方向相反是刻意設計",
@@ -113,7 +114,8 @@
           "id": "q1d",
           "label": "「打他反手然後上網」😈",
           "delta": {
-            "control": 5
+            "control": 5,
+            "power": -5
           },
           "sw_target_delta": 8,
           "copy_tags": [
@@ -168,25 +170,24 @@
               "id": "f1",
               "label": "每週不到 1 次",
               "ntrp_cap": 3.0,
-              "sw_target_delta": -8
+              "sw_target_delta": -6
             },
             {
               "id": "f2",
               "label": "1–2 次",
-              "ntrp_cap": 4.0,
-              "sw_target_delta": -3
+              "ntrp_cap": 4.0
             },
             {
               "id": "f3",
               "label": "3–4 次",
               "ntrp_cap": 5.0,
-              "sw_target_delta": 0
+              "sw_target_delta": 2
             },
             {
               "id": "f4",
               "label": "5 次以上",
               "ntrp_cap": 5.0,
-              "sw_target_delta": 4
+              "sw_target_delta": 6
             }
           ]
         }
@@ -212,7 +213,7 @@
           "label": "只有肌肉會痠",
           "sublabel": "關節（手肘 / 手腕）本身不會痛，屬正常運動痠痛",
           "delta": {
-            "comfort": 12
+            "comfort": 3
           },
           "gate": {
             "max_ra": 66
@@ -223,7 +224,7 @@
           "label": "關節痛過或發炎過 🩹",
           "sublabel": "網球肘、手腕 / 肩肌腱炎，或曾因此看醫生、戴護具、停打",
           "delta": {
-            "comfort": 30
+            "comfort": 21
           },
           "gate": {
             "max_ra": 63,
@@ -269,11 +270,12 @@
               "id": "p1",
               "label": "球飛不遠，軟趴趴",
               "delta_advanced": {
-                "power": 18
+                "power": 18,
+                "control": -18
               },
               "delta_beginner": {
                 "power": 8,
-                "comfort": 6
+                "control": -8
               },
               "head_pref_delta": 2
             },
@@ -281,11 +283,8 @@
               "id": "p2",
               "label": "一發力就出界",
               "delta_advanced": {
-                "control": 20,
-                "power": -10
-              },
-              "delta_beginner": {
-                "comfort": 8
+                "control": 30,
+                "power": -30
               },
               "head_pref_delta_beginner": 4,
               "note": "⚠️最重要的條件映射：進階=器材問題給控制拍；新手=動作問題給容錯，給控制拍是懲罰他"
@@ -293,18 +292,16 @@
             {
               "id": "p3",
               "label": "老是打到框",
-              "delta_advanced": {},
-              "delta_beginner": {},
               "head_pref_delta": 6
             },
             {
               "id": "p4",
               "label": "打完手肘在哭 😖",
               "delta_advanced": {
-                "comfort": 25
+                "comfort": 16
               },
               "delta_beginner": {
-                "comfort": 25
+                "comfort": 16
               },
               "gate": {
                 "max_ra": 63
@@ -313,37 +310,35 @@
             {
               "id": "p5",
               "label": "第三盤揮不動",
-              "delta_advanced": {},
-              "delta_beginner": {},
-              "sw_target_delta": -15
+              "sw_target_delta": -12
             },
             {
               "id": "p6",
               "label": "像塊木板，沒手感",
               "delta_advanced": {
                 "control": 12,
-                "comfort": 10
+                "comfort": 1,
+                "power": -12
               },
               "delta_beginner": {
-                "comfort": 12
+                "comfort": 3
               }
             },
             {
               "id": "p7",
               "label": "太彈，控不住",
               "delta_advanced": {
-                "control": 18,
-                "power": -12
+                "control": 30,
+                "power": -30
               },
               "delta_beginner": {
-                "control": 10
+                "control": 10,
+                "power": -10
               }
             },
             {
               "id": "p8",
-              "label": "沒有，就是想換",
-              "delta_advanced": {},
-              "delta_beginner": {}
+              "label": "沒有，就是想換"
             }
           ]
         }
@@ -366,8 +361,8 @@
           "sublabel": "一顆球轉到對手胸口",
           "delta": {
             "spin": 25,
-            "power": 8,
-            "control": -5
+            "power": 13,
+            "control": -13
           },
           "copy_tags": [
             "topspin"
@@ -378,8 +373,8 @@
           "label": "平擊穿透流 ⚡",
           "sublabel": "又平又快貼網過",
           "delta": {
-            "power": 20,
-            "control": 12,
+            "power": 8,
+            "control": -8,
             "spin": -15
           },
           "copy_tags": [
@@ -393,9 +388,9 @@
           "delta": {
             "control": 18,
             "spin": -8,
-            "comfort": 6
+            "power": -18
           },
-          "sw_target_delta": -5,
+          "sw_target_delta": -2,
           "copy_tags": [
             "slice"
           ]
@@ -406,9 +401,9 @@
           "sublabel": "我求的是回擊率",
           "delta": {
             "power": 10,
-            "comfort": 8
+            "control": -10
           },
-          "sw_target_delta": -6,
+          "sw_target_delta": -4,
           "copy_tags": [
             "safe"
           ],
@@ -419,10 +414,10 @@
           "label": "發球上網型 🎯",
           "sublabel": "發完就進攻，網前收掉",
           "delta": {
-            "control": 8,
-            "power": 10
+            "control": -2,
+            "power": 2
           },
-          "sw_target_delta": 4,
+          "sw_target_delta": 6,
           "copy_tags": [
             "serve_volley"
           ]
@@ -445,10 +440,10 @@
           "sublabel": "美感即正義",
           "delta": {
             "control": 15,
-            "comfort": 8,
-            "spin": -4
+            "spin": -4,
+            "power": -15
           },
-          "sw_target_delta": -4,
+          "sw_target_delta": -2,
           "copy_tags": [
             "ohbh"
           ],
@@ -459,10 +454,10 @@
           "label": "雙反 🛡️",
           "sublabel": "穩定壓制",
           "delta": {
-            "power": 5,
-            "control": 4
+            "power": 1,
+            "control": -1
           },
-          "sw_target_delta": 3,
+          "sw_target_delta": 6,
           "copy_tags": [
             "thbh"
           ],
@@ -474,10 +469,10 @@
           "sublabel": "我不打反手，我化解反手",
           "delta": {
             "control": 12,
-            "comfort": 8,
-            "spin": -6
+            "spin": -6,
+            "power": -12
           },
-          "sw_target_delta": -4,
+          "sw_target_delta": -2,
           "copy_tags": [
             "slice"
           ]
@@ -485,10 +480,7 @@
         {
           "id": "q6d",
           "label": "反手是我的傷口 🥲",
-          "delta": {
-            "comfort": 6
-          },
-          "sw_target_delta": -6,
+          "sw_target_delta": -4,
           "copy_tags": [
             "weak_bh"
           ],
@@ -510,10 +502,10 @@
           "id": "q7a",
           "label": "我就是引擎，能打重球",
           "delta": {
-            "power": -20,
-            "control": 18
+            "power": -38,
+            "control": 38
           },
-          "sw_target_delta": 10,
+          "sw_target_delta": 12,
           "copy_tags": [
             "self_powered"
           ]
@@ -527,19 +519,18 @@
           "label": "借力打力比較省",
           "delta": {
             "power": 22,
-            "comfort": 6
+            "control": -22
           },
-          "sw_target_delta": -6
+          "sw_target_delta": -4
         },
         {
           "id": "q7d",
           "label": "我需要拍子救我",
           "delta": {
-            "power": 28,
-            "control": -10,
-            "comfort": 8
+            "power": 38,
+            "control": -38
           },
-          "sw_target_delta": -14,
+          "sw_target_delta": -12,
           "head_pref_delta": 6
         }
       ],
@@ -560,9 +551,10 @@
           "label": "單打，我要跑死他",
           "delta": {
             "power": 8,
-            "spin": 5
+            "spin": 5,
+            "control": -8
           },
-          "sw_target_delta": 4,
+          "sw_target_delta": 6,
           "copy_tags": [
             "singles"
           ]
@@ -571,19 +563,17 @@
           "id": "q8b",
           "label": "雙打，網前才是戰場",
           "delta": {
-            "control": 12,
-            "power": -8,
-            "comfort": 5
+            "control": 20,
+            "power": -20
           },
-          "sw_target_delta": -12,
+          "sw_target_delta": -10,
           "copy_tags": [
             "doubles"
           ]
         },
         {
           "id": "q8c",
-          "label": "一半一半",
-          "sw_target_delta": -3
+          "label": "一半一半"
         }
       ]
     },
@@ -601,8 +591,9 @@
           "id": "q9a",
           "label": "柔軟包覆，球陷進線床",
           "delta": {
-            "comfort": 22,
-            "control": 8
+            "comfort": 13,
+            "control": 8,
+            "power": -8
           },
           "copy_tags": [
             "feel_soft"
@@ -613,7 +604,7 @@
           "label": "厚實紮實，吃得住、不空",
           "delta": {
             "control": 10,
-            "comfort": 8
+            "power": -10
           },
           "copy_tags": [
             "feel_solid"
@@ -624,9 +615,10 @@
           "label": "清脆直接，回饋俐落",
           "delta": {
             "control": 16,
-            "comfort": -12
+            "comfort": -12,
+            "power": -16
           },
-          "sw_target_delta": 4,
+          "sw_target_delta": 6,
           "copy_tags": [
             "feel_crisp"
           ]
@@ -636,7 +628,7 @@
           "label": "Q 彈帶勁，線床有助力感",
           "delta": {
             "power": 16,
-            "comfort": 2
+            "control": -16
           },
           "copy_tags": [
             "feel_springy"
@@ -648,7 +640,8 @@
           "delta": {
             "power": 14,
             "spin": 6,
-            "comfort": -4
+            "comfort": -4,
+            "control": -14
           },
           "copy_tags": [
             "feel_muted"
@@ -670,7 +663,7 @@
         {
           "id": "q10a",
           "label": "越打越熱，體力是我武器 🔋",
-          "sw_target_delta": 10,
+          "sw_target_delta": 12,
           "copy_tags": [
             "stamina_high"
           ]
@@ -682,10 +675,7 @@
         {
           "id": "q10c",
           "label": "我盡量速戰速決，不想拖 🥵",
-          "delta": {
-            "comfort": 5
-          },
-          "sw_target_delta": -14,
+          "sw_target_delta": -12,
           "copy_tags": [
             "stamina_low"
           ]
@@ -708,7 +698,7 @@
           "delta": {
             "spin": 6
           },
-          "sw_target_delta": 10,
+          "sw_target_delta": 12,
           "copy_tags": [
             "full_swing"
           ]
@@ -722,9 +712,10 @@
           "label": "緊湊，擋回去就好",
           "delta": {
             "power": 8,
-            "spin": -8
+            "spin": -8,
+            "control": -8
           },
-          "sw_target_delta": -14,
+          "sw_target_delta": -12,
           "copy_tags": [
             "compact"
           ]
@@ -775,14 +766,14 @@
           "id": "w_stable",
           "label": "穩定",
           "target": "sw",
-          "sw_target_delta": 6,
+          "sw_target_delta": 8,
           "note": "穩定來自質量→提高SW權重與目標"
         },
         {
           "id": "w_agile",
           "label": "靈活",
           "target": "sw",
-          "sw_target_delta": -10,
+          "sw_target_delta": -8,
           "note": "靈活=低SW，與穩定衝突，兩者都選則相消"
         },
         {
@@ -928,7 +919,7 @@
         {
           "id": "q14c",
           "label": "「我扛得住，你儘管上」",
-          "sw_target_delta": 4,
+          "sw_target_delta": 6,
           "copy_tags": [
             "voice_stable"
           ]
