@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import type { Business } from "../lib/persist";
-import { optionCardStyle, PrimaryButton } from "./ui";
+import { optionCard, PrimaryButton } from "./ui";
 
 const GENDERS = ["男", "女", "不想說"];
 
@@ -29,12 +29,14 @@ export default function BusinessForm({
         （都可略過）留個暱稱，結果頁和成績卡會更有你的味道。
       </p>
 
-      <label style={labelStyle}>暱稱</label>
+      <label style={labelStyle} htmlFor="nickname">暱稱</label>
       <input
+        id="nickname"
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
         placeholder="輸入你的暱稱"
         maxLength={20}
+        className="field"
         style={inputStyle}
       />
 
@@ -43,7 +45,7 @@ export default function BusinessForm({
         {GENDERS.map((g) => {
           const sel = gender === g;
           return (
-            <button key={g} onClick={() => setGender(sel ? null : g)} style={{ ...optionCardStyle(sel), padding: "12px 0", justifyContent: "center", flex: 1 }}>
+            <button key={g} onClick={() => setGender(sel ? null : g)} {...optionCard(sel, { padding: "12px 0", justifyContent: "center", flex: 1 })}>
               <span className="archivo" style={{ fontFamily: "var(--font-noto)", fontWeight: 700, fontSize: 14 }}>{g}</span>
             </button>
           );
@@ -56,7 +58,8 @@ export default function BusinessForm({
       </PrimaryButton>
       <button
         onClick={() => onSubmit({})}
-        style={{ marginTop: 12, width: "100%", height: 40, background: "transparent", border: "none", color: "var(--ink-faint)", fontFamily: "var(--font-noto)", fontSize: 13, cursor: "pointer" }}
+        className="text-btn"
+        style={{ marginTop: 12, width: "100%", height: 44, color: "var(--ink-faint)", fontFamily: "var(--font-noto)", fontSize: 13 }}
       >
         略過，直接看結果
       </button>
@@ -72,14 +75,11 @@ const labelStyle: React.CSSProperties = {
   color: "var(--ink-dim)",
   marginBottom: 8,
 };
+// surface/border/focus come from .field (globals.css) — keep this layout-only
 const inputStyle: React.CSSProperties = {
   width: "100%",
   height: 50,
   padding: "0 16px",
   borderRadius: 10,
-  background: "rgba(255,255,255,.02)",
-  border: "1px solid var(--hairline)",
-  color: "#fff",
   fontSize: 16,
-  outline: "none",
 };

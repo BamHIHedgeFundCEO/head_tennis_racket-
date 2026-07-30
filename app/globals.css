@@ -1,15 +1,20 @@
 :root {
   --accent: #FF4D00;
   --accent-hover: #ff6a2b;
+  --accent-press: #e34200;
   --glow: rgba(255, 77, 0, 0.4);
   --glow-strong: rgba(255, 77, 0, 0.6);
   --bg: #0A0A0A;
   --panel-top: #161616;
   --panel-bottom: #0d0d0d;
   --hairline: rgba(255, 255, 255, 0.12);
+  --hairline-strong: rgba(255, 255, 255, 0.22);
+  --surface: rgba(255, 255, 255, 0.02);
+  --surface-hover: rgba(255, 255, 255, 0.055);
   --ink: #ffffff;
   --ink-dim: rgba(255, 255, 255, 0.55);
   --ink-faint: rgba(255, 255, 255, 0.35);
+  --ease: cubic-bezier(.2, .7, .3, 1);
 }
 
 * { box-sizing: border-box; }
@@ -20,13 +25,132 @@ body {
   font-family: var(--font-noto), var(--font-archivo), sans-serif;
   -webkit-font-smoothing: antialiased;
 }
-a { color: var(--accent); text-decoration: none; }
+a { color: var(--accent); text-decoration: none; transition: color .18s var(--ease); }
 a:hover { color: var(--accent-hover); }
 button { font-family: inherit; }
 input, select { font-family: inherit; }
 
 .mono { font-family: var(--font-mono), monospace; font-variant-numeric: tabular-nums; }
 .archivo { font-family: var(--font-archivo), var(--font-noto), sans-serif; }
+
+/* One focus treatment for the whole app: keyboard only, never on mouse press.
+   Inputs below clear the native outline, so this is their only focus signal. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------------------------- interaction states -------------------------- */
+/* Surface colors live here, not in inline styles — an inline `background` wins
+   over any class rule, which is why :hover had no effect before. */
+
+.btn-primary {
+  background: var(--accent);
+  color: #141414;
+  cursor: pointer;
+  transition: transform .16s var(--ease), filter .16s var(--ease), background .16s var(--ease);
+}
+.btn-primary:hover:not(:disabled) { filter: brightness(1.07); transform: translateY(-1px); }
+.btn-primary:active:not(:disabled) { transform: translateY(1px) scale(.99); background: var(--accent-press); filter: none; }
+.btn-primary:disabled {
+  background: rgba(255, 255, 255, .1);
+  color: rgba(255, 255, 255, .38);
+  cursor: not-allowed;
+  animation: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--hairline);
+  color: var(--ink-dim);
+  cursor: pointer;
+  transition: background .18s var(--ease), border-color .18s var(--ease), color .18s var(--ease), transform .16s var(--ease);
+}
+.btn-ghost:hover { background: var(--surface-hover); border-color: var(--hairline-strong); color: var(--ink); }
+.btn-ghost:active { transform: translateY(1px); }
+
+/* selectable option card — .opt idle, .opt-on selected */
+.opt {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  color: var(--ink);
+  transition: background .16s var(--ease), border-color .16s var(--ease), box-shadow .16s var(--ease), transform .16s var(--ease);
+}
+.opt:hover { background: var(--surface-hover); border-color: var(--hairline-strong); }
+.opt:active { transform: scale(.985); }
+.opt-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #141414;
+  box-shadow: 0 0 30px var(--glow);
+}
+.opt-on:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+.field {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  color: var(--ink);
+  outline: none;
+  transition: border-color .18s var(--ease), background .18s var(--ease), box-shadow .18s var(--ease);
+}
+.field::placeholder { color: var(--ink-faint); }
+.field:hover { border-color: var(--hairline-strong); }
+.field:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, .04);
+  box-shadow: 0 0 0 3px rgba(255, 77, 0, .16);
+}
+
+/* icon/glyph button with a real 44px touch target */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: color .18s var(--ease), background .18s var(--ease), transform .16s var(--ease);
+}
+.icon-btn:hover { color: var(--ink); background: var(--surface-hover); }
+.icon-btn:active { transform: scale(.94); }
+
+/* bare text button (skip, "see result now") */
+.text-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color .18s var(--ease), opacity .18s var(--ease);
+}
+.text-btn:hover { color: var(--accent-hover); }
+.text-btn:active { opacity: .7; }
+
+.link-quiet { color: var(--ink-faint); }
+.link-quiet:hover { color: var(--ink); }
+
+.pulse { animation: ctaPulse 2.6s ease-in-out infinite; }
+
+/* keyboard users land here first; invisible until focused */
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  z-index: 100;
+  transform: translate(-50%, -180%);
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #141414;
+  font-weight: 800;
+  font-size: 13px;
+  transition: transform .2s var(--ease);
+}
+.skip-link:focus-visible { transform: translate(-50%, 0); color: #141414; }
 
 @keyframes ctaPulse {
   0%, 100% { box-shadow: 0 0 22px var(--glow); }
@@ -44,3 +168,13 @@ input, select { font-family: inherit; }
 /* hide native range thumb — the mockup draws its own */
 input[type="range"].bare { -webkit-appearance: none; appearance: none; background: transparent; }
 input[type="range"].bare::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; }
+
+/* The CTA glow loops forever; honour users who ask motion to stop. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

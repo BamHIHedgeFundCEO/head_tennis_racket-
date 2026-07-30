@@ -2,9 +2,12 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-// IG Story 直式尺寸
+// IG Story 直式尺寸（預設）
 const W = 1080;
 const H = 1920;
+// ?fmt=card → 連結預覽用的橫式（Facebook / LINE / X 會把直式裁爛）
+const CARD_W = 1200;
+const CARD_H = 630;
 const ACCENT = "#FF4D00";
 
 let fontCache: ArrayBuffer | null = null;
@@ -22,7 +25,9 @@ export async function GET(req: Request) {
   const origin = reqUrl.origin;
   const sp = reqUrl.searchParams;
   const series = (sp.get("series") || "HEAD").toUpperCase();
-  const model = sp.get("model") || "";
+  const modelRaw = sp.get("model") || "";
+  // single-model lines carry model === series in the data; don't print it twice
+  const model = modelRaw.toUpperCase() === series ? "" : modelRaw;
   const pct = sp.get("pct") || "";
   const nickname = (sp.get("nn") || "").slice(0, 20);
   const tags = (sp.get("t") || "")
@@ -32,8 +37,50 @@ export async function GET(req: Request) {
     .slice(0, 3);
   const racquetSrc = `${origin}/racquets/${series.toLowerCase()}.png`;
   const font = await loadFont(origin);
+  const fonts = [{ name: "Noto TC", data: font, weight: 700 as const, style: "normal" as const }];
 
   const heading = nickname ? `${nickname} 的本命球拍` : "你的本命球拍";
+
+  // ---- landscape link-preview card (site-level, no result data needed) ----
+  if (sp.get("fmt") === "card") {
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            background: "#0A0A0A",
+            backgroundImage: "radial-gradient(circle at 78% 24%, rgba(255,77,0,0.22), transparent 52%)",
+            padding: "68px 76px",
+            color: "#fff",
+            fontFamily: '"Noto TC"',
+          }}
+        >
+          <div style={{ display: "flex", fontSize: 26, letterSpacing: 8, color: ACCENT }}>
+            HEAD · OFFICIAL RACQUET FINDER
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", fontSize: 96, fontWeight: 700, letterSpacing: -3, lineHeight: 1.05 }}>
+              找到你的本命球拍
+            </div>
+            <div style={{ display: "flex", fontSize: 34, color: "rgba(255,255,255,0.58)", marginTop: 18 }}>
+              15 題比對 HEAD 全系列規格,算出真正適合你的那一支
+            </div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+            <div style={{ display: "flex", width: 190, height: 8, background: ACCENT, borderRadius: 4 }} />
+            <div style={{ display: "flex", fontSize: 26, letterSpacing: 5, color: "rgba(255,255,255,0.45)" }}>
+              約 2 到 3 分鐘 · 免註冊
+            </div>
+          </div>
+        </div>
+      ),
+      { width: CARD_W, height: CARD_H, fonts }
+    );
+  }
 
   return new ImageResponse(
     (
@@ -107,6 +154,6 @@ export async function GET(req: Request) {
         </div>
       </div>
     ),
-    { width: W, height: H, fonts: [{ name: "Noto TC", data: font, weight: 700, style: "normal" }] }
+    { width: W, height: H, fonts }
   );
 }

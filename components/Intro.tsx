@@ -38,7 +38,7 @@ export default function Intro({ onStart }: { onStart: () => void }) {
       </div>
       {hasWebsite() && (
         <div style={{ marginTop: 14, textAlign: "center" }}>
-          <a href={LINKS.website} target="_blank" rel="noopener noreferrer" className="mono" style={{ fontSize: 11, letterSpacing: ".14em", color: "var(--ink-faint)" }}>
+          <a href={LINKS.website} target="_blank" rel="noopener noreferrer" className="mono link-quiet" style={{ fontSize: 11, letterSpacing: ".14em", display: "inline-block", padding: "10px 6px" }}>
             前往 HEAD 官網 →
           </a>
         </div>

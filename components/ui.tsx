@@ -16,10 +16,12 @@ export function RacquetImage({
   name,
   size = 200,
   ratio = 1.62,
+  alt,
 }: {
   name: string; // series slug (lowercase) or "_cover"
   size?: number;
   ratio?: number;
+  alt?: string;
 }) {
   const [attempt, setAttempt] = useState(0);
   if (attempt >= IMG_EXTS.length) return <RacquetPlaceholder size={size} />;
@@ -27,7 +29,7 @@ export function RacquetImage({
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={`/racquets/${name.toLowerCase()}.${IMG_EXTS[attempt]}`}
-      alt=""
+      alt={alt ?? `HEAD ${name} 系列球拍`}
       onError={() => setAttempt((a) => a + 1)}
       style={{ width: size, height: size * ratio, objectFit: "contain", display: "block" }}
     />
@@ -38,6 +40,7 @@ export function RacquetImage({
 export function Shell({ children }: { children: React.ReactNode }) {
   return (
     <main
+      id="main"
       style={{
         position: "relative",
         minHeight: "100dvh",
@@ -87,9 +90,25 @@ export const monoLabel: React.CSSProperties = {
   textTransform: "uppercase",
 };
 
-export function ProgressBar({ pct }: { pct: number }) {
+export function ProgressBar({
+  pct,
+  label,
+  now,
+  total,
+}: {
+  pct: number;
+  label?: string;
+  now?: number;
+  total?: number;
+}) {
   return (
     <div
+      role="progressbar"
+      aria-label={label}
+      aria-valuemin={1}
+      aria-valuemax={total}
+      aria-valuenow={now}
+      aria-valuetext={now && total ? `第 ${now} 題,共 ${total} 題` : undefined}
       style={{
         height: 3,
         width: "100%",
@@ -129,7 +148,8 @@ export function PrimaryButton({
     <button
       onClick={onClick}
       disabled={disabled}
-      className="archivo"
+      // surface + hover/active/disabled live in .btn-primary (globals.css)
+      className={`archivo btn-primary${pulse ? " pulse" : ""}`}
       style={{
         display: "flex",
         alignItems: "center",
@@ -139,13 +159,9 @@ export function PrimaryButton({
         height: 56,
         border: "none",
         borderRadius: 12,
-        background: disabled ? "rgba(255,255,255,.12)" : "var(--accent)",
-        color: disabled ? "rgba(255,255,255,.4)" : "#141414",
         fontWeight: 800,
         fontSize: 16,
         letterSpacing: ".02em",
-        cursor: disabled ? "not-allowed" : "pointer",
-        animation: pulse && !disabled ? "ctaPulse 2.6s ease-in-out infinite" : "none",
         ...style,
       }}
     >
@@ -164,17 +180,14 @@ export function GhostButton({
   return (
     <button
       onClick={onClick}
+      className="btn-ghost"
       style={{
         width: "100%",
         height: 46,
-        background: "transparent",
-        border: "1px solid rgba(255,255,255,.14)",
         borderRadius: 12,
-        color: "var(--ink-dim)",
         fontFamily: "var(--font-noto), sans-serif",
         fontWeight: 700,
         fontSize: 14,
-        cursor: "pointer",
       }}
     >
       {children}
@@ -182,23 +195,30 @@ export function GhostButton({
   );
 }
 
-/** Selectable card: outline when idle, filled + glow when selected. */
-export function optionCardStyle(selected: boolean): React.CSSProperties {
+/**
+ * Selectable card: outline when idle, filled + glow when selected.
+ * Spread onto the button — `{...optionCard(sel)}`. Surface colors come from the
+ * .opt / .opt-on classes so :hover and :active can actually take effect; an
+ * inline `background` would outrank them.
+ */
+export function optionCard(
+  selected: boolean,
+  styleOverride?: React.CSSProperties
+): { className: string; style: React.CSSProperties } {
   return {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 14,
-    width: "100%",
-    padding: "15px 17px",
-    borderRadius: 12,
-    cursor: "pointer",
-    textAlign: "left",
-    transition: "all .16s ease",
-    background: selected ? "var(--accent)" : "rgba(255,255,255,.02)",
-    border: selected ? "1px solid var(--accent)" : "1px solid var(--hairline)",
-    color: selected ? "#141414" : "#ffffff",
-    boxShadow: selected ? "0 0 30px var(--glow)" : "none",
+    className: `opt${selected ? " opt-on" : ""}`,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 14,
+      width: "100%",
+      padding: "15px 17px",
+      borderRadius: 12,
+      cursor: "pointer",
+      textAlign: "left",
+      ...styleOverride,
+    },
   };
 }
 

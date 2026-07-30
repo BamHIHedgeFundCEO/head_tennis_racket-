@@ -60,7 +60,7 @@ export default function ResultScreen({
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, animation: "matchIn .6s ease both" }}>
         <div style={{ flex: "none", marginLeft: -6 }}>
-          <RacquetImage name={top.series} size={128} />
+          <RacquetImage name={top.series} size={128} alt={`${racquetName(top.id)} 球拍`} />
         </div>
         <div style={{ flex: 1, textAlign: "right" }}>
           <div style={{ display: "inline-flex", alignItems: "flex-start", color: "var(--accent)", textShadow: "0 0 40px var(--glow-strong)" }}>
@@ -215,7 +215,7 @@ export default function ResultScreen({
       </div>
       {hasWebsite() && (
         <div style={{ marginTop: 18, textAlign: "center" }}>
-          <a href={LINKS.website} target="_blank" rel="noopener noreferrer" className="mono" style={{ fontSize: 11, letterSpacing: ".14em", color: "var(--ink-faint)" }}>
+          <a href={LINKS.website} target="_blank" rel="noopener noreferrer" className="mono link-quiet" style={{ fontSize: 11, letterSpacing: ".14em", display: "inline-block", padding: "10px 6px" }}>
             前往 HEAD 官網 →
           </a>
         </div>
@@ -235,11 +235,13 @@ function SectionLabel({ children, style }: { children: React.ReactNode; style?: 
 function Card({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (
     <div
+      // radius hierarchy: container 15 > control 12 > chip 8
       style={{
         padding: "16px 16px 14px",
         border: "1px solid rgba(255,255,255,.1)",
-        borderRadius: 12,
-        background: "rgba(255,255,255,.02)",
+        borderRadius: 15,
+        background: "var(--surface)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,.04), 0 10px 30px rgba(0,0,0,.35)",
         ...style,
       }}
     >
