@@ -49,7 +49,11 @@ export function seriesZh(series: string): string {
 export function racquetName(id: string): string {
   const r = racquetById.get(id);
   if (!r) return id;
-  return `HEAD ${seriesZh(r.series)} ${r.model}`;
+  const series = seriesZh(r.series);
+  // Single-model lines repeat themselves in the data (series SQUARED / model
+  // SQUARED) — don't print "HEAD SQUARED SQUARED".
+  if (r.model.toUpperCase() === r.series.toUpperCase()) return `HEAD ${series}`;
+  return `HEAD ${series} ${r.model}`;
 }
 
 /** Three short chips for the hero, derived from the winner's standout axes. */
