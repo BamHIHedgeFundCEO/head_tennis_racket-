@@ -58,10 +58,11 @@
           290,
           330
         ],
-        "validated": "五個測試人格 Top1 落在 85.3–95.9%（power/control delta 改為零和、comfort delta 去平均後截零之後重新量測）"
+        "validated": "五個測試人格 Top1 落在 85.3–97.8%（power/control delta 零和化、comfort 去平均後截零、sw_target_delta 去平均、Q5 攻擊型選項改回負向之後重新量測）"
       },
       "dedupe": "cosmetic=true 不進排名；Top1 命中本尊時於文案層推薦塗裝版",
-      "delta_convention": "★ power 與 control 的 delta 必須零和（一邊 +x，另一邊 -x）：racquets.json 的公式讓每支拍的 power+control 固定在 ~101，同向加會把 ideal 推到做不出來的角落，排序就退化成「誰最接近全表重心」。comfort delta 已去平均並截零，只有真正在乎舒適的答案才帶 comfort 訊號。 sw_target_delta 同理必須以 0 為中心（正負大致相抵）：base_by_ntrp 負責分級，delta 只做相對微調；單向偏負會把目標拖到全表 SW 分佈之下，最輕的幾支就長期佔便宜。"
+      "delta_convention": "★ power 與 control 的 delta 必須零和（一邊 +x，另一邊 -x）：racquets.json 的公式讓每支拍的 power+control 固定在 ~101，同向加會把 ideal 推到做不出來的角落，排序就退化成「誰最接近全表重心」。comfort delta 已去平均並截零，只有真正在乎舒適的答案才帶 comfort 訊號。 sw_target_delta 同理必須以 0 為中心（正負大致相抵）：base_by_ntrp 負責分級，delta 只做相對微調；單向偏負會把目標拖到全表 SW 分佈之下，最輕的幾支就長期佔便宜。",
+      "axis_convention": "★ power 軸的語意是「拍子該提供多少力量」，不是「這個人打得多兇」。自帶引擎的打法（上旋暴力、平擊穿透、單反、切球、雙打網前）要給負值，需要拍子幫忙的（我需要拍子救我、打過去就好、緊湊揮拍）才給正值。Q5 原本把攻擊型寫成正值，和 Q7「我就是引擎 PW-38」互相矛盾，導致 4.5 的重上旋選手被配到入門框。"
     },
     "notes": [
       "Q7：style 給控制拍(power-20) 但 sw_target +10，方向相反是刻意設計",
@@ -361,8 +362,8 @@
           "sublabel": "一顆球轉到對手胸口",
           "delta": {
             "spin": 25,
-            "power": 13,
-            "control": -13
+            "power": -12,
+            "control": 12
           },
           "copy_tags": [
             "topspin"
@@ -373,8 +374,8 @@
           "label": "平擊穿透流 ⚡",
           "sublabel": "又平又快貼網過",
           "delta": {
-            "power": 8,
-            "control": -8,
+            "power": -8,
+            "control": 8,
             "spin": -15
           },
           "copy_tags": [
