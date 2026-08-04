@@ -62,7 +62,9 @@ export default function Quiz() {
 
   // end of quiz -> compute result, then ask the optional business step before showing it
   const finish = () => {
-    const r = score(answers, config);
+    // four, not three: the runner-up gets its own block and the "also consider"
+    // list starts below it, so two more are needed to fill that list
+    const r = score(answers, config, { topN: 4 });
     setResult(r);
     snap.current.answers = answers;
     snap.current.result = r; // hold result so the abandon handler can still persist it

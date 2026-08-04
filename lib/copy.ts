@@ -165,11 +165,17 @@ export function courtPersona(answers: Answers | undefined): {
   return { group: g, ...MBTI_GROUP_ZH[g], personas };
 }
 
-/** Other HEAD options (Top2 / Top3) with a "leans more X, N points lower" tag. */
+/**
+ * Further HEAD options, with a "leans more X, N points lower" tag.
+ *
+ * Starts at the third match: the runner-up already has its own block above,
+ * and listing it again — same racquet, same percentage — read as unfinished.
+ * Quiz asks score() for four matches so this still shows two.
+ */
 export function otherOptions(result: Result) {
   const [top] = result.matches;
   if (!top) return [];
-  return result.matches.slice(1, 3).map((m) => {
+  return result.matches.slice(2, 4).map((m) => {
     let bestAxis = "control";
     let bestDelta = -Infinity;
     for (const axis of Object.keys(m.vector)) {
