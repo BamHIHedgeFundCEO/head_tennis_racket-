@@ -28,6 +28,9 @@ const TAG_BULLET: Record<string, string> = {
   safe: "你求穩定回擊,這支容錯高、甜區集中,失誤更少。",
   self_powered: "你自帶引擎,不需要拍子額外加力,控制型框體讓你壓得住球。",
   ohbh: "你打單反,略低的揮重與清楚回饋幫你把單反打得更漂亮。",
+  thbh: "你打雙反,穩定的框體與集中的甜區讓你反手更敢發力。",
+  aggressive: "你習慣主動壓迫、找機會上網,這支的控制與出手速度讓你敢先動手。",
+  feel_muted: "你不執著手感,要的是轉速與出球效率,這支把力氣花在該花的地方。",
   weak_bh: "你的反手偏弱,這支的容錯與甜區給你更多後盾。",
   singles: "你以單打為主,這支的重量與旋轉支撐你把對手跑開。",
   doubles: "你重視雙打網前,較低揮重讓你截擊反應更快。",
@@ -41,6 +44,9 @@ const TAG_BULLET: Record<string, string> = {
   full_swing: "你揮拍幅度大,高揮重能把你的揮速完整轉成球速。",
   compact: "你揮拍緊湊,較輕的配置讓你擋、切、快速反應都更順。",
 };
+
+/** Tags that have a bullet to render — config tests assert every copy_tag is here. */
+export const TAG_BULLET_KEYS = Object.keys(TAG_BULLET);
 
 export function seriesZh(series: string): string {
   return SERIES_ZH[series] ?? series;

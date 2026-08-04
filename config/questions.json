@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.0",
+    "version": "1.1",
     "question_count": 15,
     "axes": [
       "power",
@@ -70,6 +70,9 @@
       "Q9：唯一能分開 Gravity(軟)/Radical(脆)/Boom(悶) 的題",
       "Q13-15 加總 nudge 上限 ±12，不足以翻轉排名",
       "★校準紀錄：初版 sw_target 未 clamp 導致新手組全罰（Top1 僅73%）；初版 sw 罰分對稱導致 SQUARED 對傷病者排第3。兩者已修正。"
+    ],
+    "changelog": [
+      "1.1 — power/control delta 改零和、comfort delta 去平均後截零、sw_target_delta 去平均、Q5 攻擊型選項改回負向。推薦分佈大幅改變，1.0 與 1.1 的回應資料不可直接互相比較。"
     ]
   },
   "questions": [
