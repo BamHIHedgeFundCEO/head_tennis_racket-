@@ -18,10 +18,12 @@ export default function Intro({ onStart }: { onStart: () => void }) {
         </div>
       </div>
 
-      <h1 className="archivo" style={{ fontWeight: 900, fontSize: "clamp(40px,13vw,46px)", lineHeight: 1.04, letterSpacing: "-.02em", color: "#fff", margin: "0 0 16px" }}>
+      {/* headline owns the most air; the line below it stays tight to the CTA
+          so the page reads as two beats, not five evenly spaced ones */}
+      <h1 className="archivo" style={{ fontWeight: 900, fontSize: "clamp(40px,13vw,46px)", lineHeight: 1.04, letterSpacing: "-.02em", color: "#fff", margin: "0 0 14px" }}>
         找到你的<br />本命球拍
       </h1>
-      <p style={{ fontFamily: "var(--font-noto)", fontSize: 15, lineHeight: 1.6, color: "var(--ink-dim)", margin: "0 0 26px", maxWidth: 320 }}>
+      <p style={{ fontFamily: "var(--font-noto)", fontSize: 15, lineHeight: 1.6, color: "var(--ink-dim)", margin: "0 0 20px", maxWidth: 320 }}>
         回答 15 題,演算法為你比對 HEAD 全系列規格,精準命中真正適合你的那一支。
       </p>
 
@@ -29,20 +31,20 @@ export default function Intro({ onStart }: { onStart: () => void }) {
         開始測驗 <span className="mono" style={{ fontWeight: 700 }}>→</span>
       </PrimaryButton>
 
-      <div style={{ display: "flex", gap: 8, marginTop: 18 }}>
-        {["約 2–3 分鐘", "免註冊", "HEAD 官方"].map((t) => (
-          <span key={t} className="mono" style={{ flex: 1, textAlign: "center", padding: "9px 0", border: "1px solid rgba(255,255,255,.14)", borderRadius: 8, fontSize: 11, color: "var(--ink-dim)" }}>
-            {t}
-          </span>
+      {/* one inline meta line instead of three equal boxed chips */}
+      <div className="mono" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 9, marginTop: 16, fontSize: 11, letterSpacing: ".08em", color: "var(--ink-faint)" }}>
+        {["約 2–3 分鐘", "免註冊", "HEAD 官方"].map((t, i) => (
+          <React.Fragment key={t}>
+            {i > 0 && <span aria-hidden style={{ color: "var(--accent)", opacity: 0.75 }}>/</span>}
+            <span>{t}</span>
+          </React.Fragment>
         ))}
-      </div>
-      {hasWebsite() && (
-        <div style={{ marginTop: 14, textAlign: "center" }}>
-          <a href={LINKS.website} target="_blank" rel="noopener noreferrer" className="mono link-quiet" style={{ fontSize: 11, letterSpacing: ".14em", display: "inline-block", padding: "10px 6px" }}>
-            前往 HEAD 官網 →
+        {hasWebsite() && (
+          <a href={LINKS.website} target="_blank" rel="noopener noreferrer" className="link-quiet" style={{ marginLeft: "auto", letterSpacing: ".08em" }}>
+            HEAD 官網 →
           </a>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
