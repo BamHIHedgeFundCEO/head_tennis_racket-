@@ -1,8 +1,6 @@
 import type { Answers, Result } from "../engine/score";
-import { config, questionList } from "./config";
+import { CONFIG_VERSION, questionList } from "./config";
 import { supabase } from "./supabase";
-
-const CONFIG_VERSION = (config.racquets as any).meta.version as string;
 const DRAFT_KEY = "head_finder_draft";
 const QUEUE_KEY = "head_finder_pending"; // rows that failed to reach Supabase
 

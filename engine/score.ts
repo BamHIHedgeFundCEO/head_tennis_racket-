@@ -254,11 +254,11 @@ export function score(answers: Answers, config: Config, opts?: { topN?: number }
     if (target && axes.includes(target)) {
       weights[target] = mult;
     }
-    // non-axis targets (mass / head) contribute their own deltas instead
-    if (typeof opt.sw_target_delta === "number") swTarget += opt.sw_target_delta;
-    if (typeof opt.head_pref_delta === "number") headPref += opt.head_pref_delta;
+    // Non-axis targets (mass / head) carry sw_target_delta / head_pref_delta,
+    // but those are already applied by the loops above, which walk every
+    // selected option including ranked picks. Adding them here counted them
+    // twice: picking 靈活 (-10) moved the target -20.
   }
-  swTarget = clamp(swTarget, sw_clamp[0], sw_clamp[1]);
 
   // ---- collect option-level gates (from answers) ----
   const optionGates: Record<string, any>[] = [];

@@ -60,7 +60,7 @@ export default function ResultScreen({
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, animation: "matchIn .6s ease both" }}>
         <div style={{ flex: "none", marginLeft: -6 }}>
-          <RacquetImage name={top.series} size={128} />
+          <RacquetImage name={top.series} size={128} alt={`${racquetName(top.id)} 球拍`} />
         </div>
         <div style={{ flex: 1, textAlign: "right" }}>
           <div style={{ display: "inline-flex", alignItems: "flex-start", color: "var(--accent)", textShadow: "0 0 40px var(--glow-strong)" }}>
@@ -75,26 +75,25 @@ export default function ResultScreen({
         </div>
       </div>
 
-      <div style={{ height: 4, width: "100%", background: "rgba(255,255,255,.1)", borderRadius: 2, overflow: "hidden", margin: "16px 0 20px" }}>
+      <div style={{ height: 4, width: "100%", background: "rgba(255,255,255,.1)", borderRadius: 2, overflow: "hidden", margin: "18px 0 22px" }}>
         <div style={{ height: "100%", width: `${pct}%`, background: "var(--accent)", boxShadow: "0 0 12px var(--glow)" }} />
       </div>
 
-      <div style={{ display: "flex", gap: 8, marginBottom: 28 }}>
+      {/* chips size to their text — three equal thirds read as a generated grid */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: 46 }}>
         {tags.map((t, i) => (
           <span
             key={t}
-            className="archivo"
             style={{
-              flex: 1,
-              textAlign: "center",
-              padding: "9px 0",
-              borderRadius: 8,
+              padding: i === 0 ? "8px 15px" : "8px 13px",
+              borderRadius: 999,
               fontFamily: "var(--font-noto)",
               fontWeight: 700,
               fontSize: 12.5,
+              letterSpacing: ".02em",
               background: i === 0 ? "var(--accent)" : "transparent",
-              color: i === 0 ? "#141414" : "rgba(255,255,255,.75)",
-              border: i === 0 ? "none" : "1px solid rgba(255,255,255,.18)",
+              color: i === 0 ? "#141414" : "rgba(255,255,255,.7)",
+              border: i === 0 ? "none" : "1px solid rgba(255,255,255,.16)",
             }}
           >
             {t}
@@ -102,7 +101,7 @@ export default function ResultScreen({
         ))}
       </div>
 
-      {/* ② WHY THIS */}
+      {/* ② WHY THIS — rows sit tight together so the block reads as one unit */}
       <SectionLabel>推薦理由 / WHY THIS</SectionLabel>
       <div style={{ display: "flex", flexDirection: "column", marginBottom: 6 }}>
         {bullets.map((b, i) => (
@@ -111,7 +110,7 @@ export default function ResultScreen({
             style={{
               display: "flex",
               gap: 12,
-              padding: "14px 0",
+              padding: "11px 0",
               borderBottom: i < bullets.length - 1 ? "1px solid rgba(255,255,255,.08)" : "none",
             }}
           >
@@ -123,7 +122,7 @@ export default function ResultScreen({
 
       {/* ③ WHY NOT — killer block */}
       {runner && (
-        <Card style={{ marginTop: 22 }}>
+        <Card style={{ marginTop: 34 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
             <span className="mono" style={{ fontWeight: 700, fontSize: 11, letterSpacing: ".14em", color: "var(--ink-faint)" }}>
               為什麼不是 · RUNNER-UP
@@ -141,7 +140,7 @@ export default function ResultScreen({
 
       {/* ④ GUT-CHECK reveal (Q15) */}
       {guess && (
-        <Card style={{ marginTop: 14, borderColor: guess.correct ? "rgba(255,255,255,.1)" : "var(--accent)" }}>
+        <Card style={{ marginTop: 12, borderColor: guess.correct ? "rgba(255,255,255,.1)" : "var(--accent)" }}>
           <span className="mono" style={{ fontWeight: 700, fontSize: 11, letterSpacing: ".14em", color: "var(--ink-faint)" }}>
             直覺 vs 真實 · GUT CHECK
           </span>
@@ -153,7 +152,7 @@ export default function ResultScreen({
 
       {/* MBTI 球場人格（flavor / 語氣層） */}
       {persona && (
-        <Card style={{ marginTop: 14 }}>
+        <Card style={{ marginTop: 12 }}>
           <span className="mono" style={{ fontWeight: 700, fontSize: 11, letterSpacing: ".14em", color: "var(--ink-faint)" }}>
             球場人格 · YOUR COURT PERSONA
           </span>
@@ -186,7 +185,7 @@ export default function ResultScreen({
       {/* ⑤ OTHER HEAD OPTIONS */}
       {others.length > 0 && (
         <>
-          <SectionLabel style={{ marginTop: 26 }}>其他 HEAD 選擇 / ALSO CONSIDER</SectionLabel>
+          <SectionLabel style={{ marginTop: 46 }}>其他 HEAD 選擇 / ALSO CONSIDER</SectionLabel>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {others.map((o) => (
               <Card key={o.id}>
@@ -202,7 +201,7 @@ export default function ResultScreen({
       )}
 
       {/* ⑥ SHARE + LINE */}
-      <PrimaryButton pulse style={{ marginTop: 26 }} onClick={openShare}>
+      <PrimaryButton pulse style={{ marginTop: 46 }} onClick={openShare}>
         分享成績卡 <span className="mono" style={{ fontWeight: 700 }}>↗</span>
       </PrimaryButton>
       {hasLine() && (
@@ -215,7 +214,7 @@ export default function ResultScreen({
       </div>
       {hasWebsite() && (
         <div style={{ marginTop: 18, textAlign: "center" }}>
-          <a href={LINKS.website} target="_blank" rel="noopener noreferrer" className="mono" style={{ fontSize: 11, letterSpacing: ".14em", color: "var(--ink-faint)" }}>
+          <a href={LINKS.website} target="_blank" rel="noopener noreferrer" className="mono link-quiet" style={{ fontSize: 11, letterSpacing: ".14em", display: "inline-block", padding: "10px 6px" }}>
             前往 HEAD 官網 →
           </a>
         </div>
@@ -235,11 +234,13 @@ function SectionLabel({ children, style }: { children: React.ReactNode; style?: 
 function Card({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (
     <div
+      // radius hierarchy: container 15 > control 12 > chip 8
       style={{
         padding: "16px 16px 14px",
         border: "1px solid rgba(255,255,255,.1)",
-        borderRadius: 12,
-        background: "rgba(255,255,255,.02)",
+        borderRadius: 15,
+        background: "var(--surface)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,.04), 0 10px 30px rgba(0,0,0,.35)",
         ...style,
       }}
     >

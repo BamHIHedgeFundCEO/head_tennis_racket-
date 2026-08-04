@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import type { Question } from "../lib/config";
 import {
-  optionCardStyle,
+  optionCard,
   Radio,
   Check,
   PrimaryButton,
@@ -91,7 +91,7 @@ function SingleBody({ q, value, onChange, onNext }: any) {
       {q.options.map((o: any) => {
         const sel = (pending ?? value) === o.id;
         return (
-          <button key={o.id} onClick={() => pick(o.id)} style={optionCardStyle(sel)}>
+          <button key={o.id} onClick={() => pick(o.id)} {...optionCard(sel)}>
             <span>
               <span
                 className="archivo"
@@ -127,7 +127,7 @@ function DualBody({ q, value, onChange, onNext }: any) {
             {f.options.map((o: any) => {
               const sel = v[f.id] === o.id;
               return (
-                <button key={o.id} onClick={() => set(f.id, o.id)} style={optionCardStyle(sel)}>
+                <button key={o.id} onClick={() => set(f.id, o.id)} {...optionCard(sel)}>
                   <span className="archivo" style={{ fontWeight: 700, fontSize: 15 }}>{o.label}</span>
                   <Radio on={sel} />
                 </button>
@@ -172,16 +172,13 @@ function CompositeBody({ q, value, onChange, onNext }: any) {
           value={v.current ?? ""}
           onChange={(e) => setCurrent(e.target.value)}
           placeholder="輸入品牌/型號,或選下方"
+          className="field"
           style={{
             width: "100%",
             height: 48,
             padding: "0 16px",
-            borderRadius: 12,
-            background: "rgba(255,255,255,.02)",
-            border: "1px solid var(--hairline)",
-            color: "#fff",
+            borderRadius: 10,
             fontSize: 15,
-            outline: "none",
           }}
         />
         <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
@@ -191,11 +188,7 @@ function CompositeBody({ q, value, onChange, onNext }: any) {
               <button
                 key={s}
                 onClick={() => setCurrent(sel ? "" : s)}
-                style={{
-                  ...optionCardStyle(sel),
-                  padding: "9px 14px",
-                  justifyContent: "center",
-                }}
+                {...optionCard(sel, { padding: "9px 14px", justifyContent: "center", borderRadius: 8 })}
               >
                 <span className="archivo" style={{ fontWeight: 700, fontSize: 13 }}>{s}</span>
               </button>
@@ -215,7 +208,7 @@ function CompositeBody({ q, value, onChange, onNext }: any) {
           {painField.options.map((o: any) => {
             const sel = (v.pain ?? []).includes(o.id);
             return (
-              <button key={o.id} onClick={() => togglePain(o.id)} style={optionCardStyle(sel)}>
+              <button key={o.id} onClick={() => togglePain(o.id)} {...optionCard(sel)}>
                 <span className="archivo" style={{ fontWeight: 700, fontSize: 15 }}>{o.label}</span>
                 <Check on={sel} square />
               </button>
@@ -238,7 +231,33 @@ function CompositeBody({ q, value, onChange, onNext }: any) {
 }
 
 /* ------------------------------- ranked_pick ------------------------------ */
-const RANK_BADGE = ["1️⃣", "2️⃣", "3️⃣"];
+/** Typographic rank chip — the old 1️⃣2️⃣3️⃣ emoji fought the orange fill and
+ *  rendered differently on every platform. */
+function RankBadge({ rank }: { rank: number }) {
+  return (
+    <span
+      className="mono"
+      aria-label={`第 ${rank + 1} 名`}
+      style={{
+        flex: "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: 24,
+        height: 24,
+        borderRadius: 7,
+        background: "rgba(20,20,20,.9)",
+        color: "var(--accent)",
+        fontWeight: 700,
+        fontSize: 12,
+        // optical: mono digits sit high in the box
+        paddingTop: 1,
+      }}
+    >
+      {rank + 1}
+    </span>
+  );
+}
 function RankedBody({ q, value, onChange, onNext }: any) {
   const picks: string[] = value ?? [];
   const need = q.pick ?? 3;
@@ -257,10 +276,10 @@ function RankedBody({ q, value, onChange, onNext }: any) {
           const rank = picks.indexOf(o.id);
           const sel = rank >= 0;
           return (
-            <button key={o.id} onClick={() => toggle(o.id)} style={optionCardStyle(sel)}>
+            <button key={o.id} onClick={() => toggle(o.id)} {...optionCard(sel)}>
               <span className="archivo" style={{ fontWeight: 700, fontSize: 16 }}>{o.label}</span>
               {sel ? (
-                <span style={{ fontSize: 18 }}>{RANK_BADGE[rank]}</span>
+                <RankBadge rank={rank} />
               ) : (
                 <span style={{ width: 22, height: 22, borderRadius: "50%", border: "1.6px solid currentColor", opacity: 0.5 }} />
               )}

@@ -62,7 +62,9 @@ export default function Quiz() {
 
   // end of quiz -> compute result, then ask the optional business step before showing it
   const finish = () => {
-    const r = score(answers, config);
+    // four, not three: the runner-up gets its own block and the "also consider"
+    // list starts below it, so two more are needed to fill that list
+    const r = score(answers, config, { topN: 4 });
     setResult(r);
     snap.current.answers = answers;
     snap.current.result = r; // hold result so the abandon handler can still persist it
@@ -121,7 +123,8 @@ export default function Quiz() {
     <>
       {/* header chrome */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-        <button onClick={prev} aria-label="上一題" style={{ background: "none", border: "none", color: "rgba(255,255,255,.4)", fontSize: 22, cursor: "pointer", padding: 0 }} className="archivo">
+        {/* .icon-btn gives this a 44px target — the bare glyph was 8×24 */}
+        <button onClick={prev} aria-label="上一題" className="archivo icon-btn" style={{ fontSize: 22, marginLeft: -10 }}>
           ‹
         </button>
         <span style={{ fontFamily: "var(--font-noto)", fontWeight: 700, fontSize: 13, color: "var(--ink-dim)", letterSpacing: ".04em" }}>
@@ -132,7 +135,7 @@ export default function Quiz() {
         </span>
       </div>
       <div style={{ marginBottom: canEarlyExit ? 14 : 34 }}>
-        <ProgressBar pct={pct} />
+        <ProgressBar pct={pct} label="測驗進度" now={index + 1} total={total} />
       </div>
 
       {canEarlyExit && (
@@ -140,7 +143,7 @@ export default function Quiz() {
           <span style={{ fontFamily: "var(--font-noto)", fontSize: 12.5, color: "var(--ink-dim)" }}>
             ✓ 已可產生結果 · 再答 {total - index} 題更懂你
           </span>
-          <button onClick={finish} className="archivo" style={{ flex: "none", background: "none", border: "none", color: "var(--accent)", fontWeight: 800, fontSize: 13, cursor: "pointer", whiteSpace: "nowrap" }}>
+          <button onClick={finish} className="archivo text-btn" style={{ flex: "none", color: "var(--accent)", fontWeight: 800, fontSize: 13, whiteSpace: "nowrap" }}>
             直接看結果 →
           </button>
         </div>
